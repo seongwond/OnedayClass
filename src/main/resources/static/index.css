@@ -1,0 +1,311 @@
+@charset "UTF-8";
+/* Main 슬라이드 styles */
+.tot-slider {
+   position: relative;
+   max-width: 1080px;
+   /* 이미지의 최대 너비에 맞게 조정하세요. */
+   margin: auto;
+   display: flex;
+   /* Flexbox를 사용하여 자식 요소들을 중앙 정렬합니다. */
+   flex-direction: column;
+   /* 자식 요소들을 세로로 배치합니다. */
+   align-items: center;
+   /* 가로 중앙 정렬 */
+   margin-top: 50px;
+   border-radius: 2%;
+}
+
+.main-slide {
+   display: none;
+   /* 기본적으로 슬라이드는 숨겨져 있습니다. */
+   width: 100%;
+   /* 슬라이드 너비를 부모 요소에 맞춥니다. */
+   flex-shrink: 0;
+   /* 이미지 크기에 따라 슬라이드 크기가 줄어들지 않도록 합니다. */
+   border-radius: 2%;
+}
+
+.main-slide img {
+   width: 1080px;
+   /* 이미지의 너비를 600px로 고정 */
+   height: 605px;
+   /* 이미지의 높이를 400px로 고정 */
+   object-fit: cover;
+   /* 이미지 비율을 유지하면서 주어진 너비와 높이에 맞게 조정 */
+   border-radius: 2%;
+}
+
+.indicator {
+   cursor: pointer;
+   height: 15px;
+   width: 15px;
+   margin: 0 2px;
+   background-color: rgb(255, 222, 179);
+   border-radius: 50%;
+   display: inline-block;
+   transition: background-color 0.6s ease;
+}
+
+.actives, .indicator:hover {
+   background-color: rgb(253, 159, 108);
+}
+
+#prevBtn, #nextBtn {
+   cursor: pointer;
+   position: absolute;
+   top: 50%;
+   transform: translateY(-50%);
+   width: auto;
+   padding: 16px;
+   color: white;
+   font-weight: bold;
+   font-size: 18px;
+   transition: 0.6s ease;
+   user-select: none;
+   background-color: rgba(0, 0, 0, 0.1);
+   border: none;
+}
+
+#nextBtn {
+   right: 10px;
+   /* 오른쪽 버튼 위치 조정 */
+}
+
+#prevBtn {
+   left: 10px;
+   /* 왼쪽 버튼 위치 조정 */
+}
+
+.slider-indicators {
+   display: flex;
+   /* 인디케이터들을 가로로 나열합니다. */
+   position: absolute;
+   justify-content: center;
+   /* 중앙 정렬 */
+   width: 100%;
+   /* 부모 요소 너비에 맞춥니다. */
+}
+
+/* Demo styles(추천,인기,신규)*/
+.index {
+   margin: 0;
+   padding: 0;
+   background-color: white;
+}
+
+.swiper {
+   width: 1500px;
+   height: 600px;
+   margin: 20px auto;
+}
+
+.interest_order {
+   margin-top: 50px;
+   margin-bottom: 20px;
+   display: flex;
+   justify-content: left;
+   font-size: 2em;
+   text-align: center;
+   padding: 0.4em 1em 0.43m 0.53m;
+   margin: 0.5em 0em;
+   color: rgb(187, 82, 19);
+   border-left: 10px solid rgb(187, 82, 19);
+   border-bottom: 2px rgb(187, 82, 19) solid;
+   font-weight: bold;
+   width: 1440px;
+   line-height: 60px;
+   margin-left: 20px;
+}
+
+.heart_order {
+   margin-top: 50px;
+   margin-bottom: 20px;
+   display: flex;
+   justify-content: left;
+   font-size: 2em;
+   text-align: center;
+   padding: 0.4em 1em 0.43m 0.53m;
+   margin: 0.5em 0em;
+   color: rgb(185, 19, 98);
+   border-left: 10px solid rgb(185, 19, 98);
+   border-bottom: 2px rgb(185, 19, 98) solid;
+   font-weight: bold;
+   width: 1440px;
+   line-height: 60px;
+   margin-left: 20px;
+}
+
+.swiper-slide {
+   width: 400px;
+   height: 400px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+
+.swiper-slide img {
+   width: 400px;
+   height: 300px;
+   border: 1px solid black;
+   align-items: center;
+}
+
+.p_title {
+   margin-top: 25px;
+   color: black;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   width: 400px;
+   transition: font-weight 0.1s ease;
+}
+
+.class_style {
+   background-color: rgb(255, 235, 223);
+   padding: 4%;
+   border-radius: 20px;
+   transition: all 0.5s ease;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   /* 기본 상태의 넓은 그림자 */
+}
+
+.class_style:hover {
+   transform: translateY(-10px);
+   /* 더 높이 올리기 */
+   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+   /* 아래쪽으로만 진한 그림자 */
+}
+
+.class_style img {
+   border: none;
+   transition: transform 0.7s ease;
+}
+
+.class_style:hover img {
+   transform: scale(1.05);
+   /* 이미지 확대 효과 */
+}
+
+.class_style:hover .p_title {
+   font-weight: 600;
+   /* 호버 시 글씨를 약간 더 진하게 */
+   color: rgb(113, 113, 113);
+}
+
+.class_img {
+   border-radius: 4%;
+}
+
+.swiper-button-next, .swiper-button-prev {
+   color: rgb(255, 128, 0);
+}
+
+.swiper-button-next {
+   right: 0px;
+}
+
+.swiper-button-prev {
+   left: 0px;
+}
+
+.main_button {
+   display: flex;
+   justify-content: center;
+}
+
+/* input 스타일 */
+.tag {
+   width: none;
+   height: 45px;
+   border: none;
+   background-color: rgb(251, 218, 210);
+   color: rgb(193, 108, 57);
+   font-size: 17.5px;
+   font-weight: bold;
+   border-radius: 20px;
+   margin: 5px;
+   transition: all 0.3s ease-in-out;
+   background-repeat: no-repeat;
+
+}
+
+.tag_1 input {
+   background-image: url(/img/tag_1.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 25px;
+   background-position: 6px 5px;
+}
+.tag_2 input {
+   background-image: url(/img/tag_2.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px;
+}
+.tag_3 input {
+   background-image: url(/img/tag_3.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px; 
+}
+.tag_4 input {
+   background-image: url(/img/tag_4.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px; 
+}
+.tag_5 input {
+   background-image: url(/img/tag_5.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px; 
+}
+
+.tag_6 input {
+   background-image: url(/img/tag_6.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px; 
+}
+.tag_7 input {
+   background-image: url(/img/tag_7.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px; 
+}
+.tag_8 input {
+   background-image: url(/img/tag_8.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px;  
+}
+.tag_9 input {
+   background-image: url(/img/tag_9.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px;  
+}
+.tag_10 input {
+   background-image: url(/img/tag_10.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px;  
+}
+
+/* 버튼 hover 효과 */
+.main_button .tag:hover {
+   background-color: rgb(243, 211, 188);
+   color: white;
+   transform: scale(1.1);
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}

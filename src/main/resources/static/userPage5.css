@@ -1,0 +1,151 @@
+@charset "UTF-8";
+
+/* main */
+main {
+	display: flex;
+	justify-content: center;
+	padding-top: 60px;
+}
+
+.user_nickname,
+.user_id1 {
+	font-weight: bold;
+}
+
+/* userPage 메뉴(프로필, 수강내역 등) 스타일 */
+.userPage_menu1 {
+	display: grid;
+	float: left;
+	width: 350px;
+	height: 700px;
+	background-color: none;
+	border: 1px solid lightgray;
+	text-align: center;
+	font-size: 20px;
+	border-radius: 15px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+a {
+	text-decoration-line: none;
+	color: inherit;
+}
+
+/* userPage 프로필 수정 스타일 */
+.userPage_main {
+	float: left;
+	width: 900px;
+	height: 900px;
+	margin-left: 80px;
+	background-color: none;
+	text-align: left;
+	font-size: 19px;
+	margin-top: 28px;
+	justify-content: center;
+
+}
+
+/* userPage 프로필 이미지 처리 스타일 */
+.user_img1 img {
+	border-radius: 50%;
+}
+
+.profile1_img img,
+.profile2_img img {
+	border-radius: 50%;
+}
+
+.profile1_img {
+	margin-top: -25px;
+}
+
+.user_img1 {
+	margin-top: -25px;
+}
+
+.title_big {
+	display: flex;
+	font-weight: bold;
+	font-size: 21px;
+}
+
+.box {
+	margin: 0;
+}
+
+.box p {
+	margin-top: 13px;
+	margin-bottom: 10px;
+	font-size: 20px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	max-width: 212px;
+}
+
+.class_style img {
+	border-radius: 4%;
+	border: none;
+}
+
+.tot_box {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 3em;
+	padding-left: 30px;
+	align-items: left;
+	/* 수직 정렬을 중앙에 설정 */
+}
+
+.class-titles {
+	text-align: left;
+	width: 0px;
+	height: 25px;
+}
+
+.class_style {
+	background-color: rgb(255, 235, 223);
+	padding: 18px;
+	border-radius: 20px;
+}
+
+#pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+#pagination button {
+	background-color: rgb(255, 228, 202);
+	border: none;
+	color: white;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 0 10px;
+	font-weight: 600;
+	cursor: pointer;
+	border-radius: 5px;
+	transition: background-color 0.3s;
+}
+
+#pagination button:disabled {
+	background-color: rgb(241, 240, 239);
+	cursor: not-allowed;
+}
+
+#pagination button:hover:not(:disabled) {
+	background-color: rgb(255, 228, 202);
+}
+
+#pagination span {
+	font-size: 18px;
+	margin: 0 10px;
+}
+
+.tot_box {
+	min-height: 600px;
+}

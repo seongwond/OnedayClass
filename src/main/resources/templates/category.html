@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+	<head>
+		    <link rel="stylesheet" href="/category.css" type="text/css" />
+	</head>
+
+<section layout:fragment="content">
+
+	<div>
+		<br><br><br>
+		<form name="search-form" id="search-form">
+			<div id="search">
+				<input type="text" class="search-box" id="search-box" placeholder="검색 할 내용을 입력해주세요." name="keyword">
+				<button type="submit">
+					<i class="fa-solid fa-magnifying-glass"></i>
+				</button>
+			</div>
+			<br>
+
+		</form>
+	</div>
+	<br>
+	<table align="center" width="1300px" height="60px">
+		<tr>
+			<th class="select-box">
+				<select id="sortOption">
+					<option value="recent">최신순</option>
+					<option value="high_price">높은가격순</option>
+					<option value="low_price">낮은가격순</option>
+				</select>
+			</th>
+		</tr>
+	</table>
+	<br>
+
+	<div class="tot_main"></div>
+	<br><br><br>
+
+	<div id="pagination">
+		<button id="firstPage"> &lt; &lt;</button>
+		<button id="prevPage"> &lt;</button>
+		<div id="pageNumbers"></div>
+		<button id="nextPage"> &gt;</button>
+		<button id="lastPage"> &gt; &gt;</button>
+	</div>
+	<br><br><br>
+
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			var currentPage = 1;
+			var totalPages = 1;
+			var currentArea = '';
+			var currentType = '';
+			var keyword = '';
+
+			function convertClassType(classType) {
+				switch (classType) {
+					// 1. 핸드메이드
+					case 1:
+						return '가죽/목공/도예';
+					case 2:
+						return '악세사리';
+					case 3:
+						return '인테리어/소품';
+					case 4:
+						return '플라워';
+					case 5:
+						return '향/초/비누';
+
+					// 2. 금융
+					case 6:
+						return '금융전체';
+
+					// 3. 미술
+					case 7:
+						return '디지털드로잉';
+					case 8:
+						return '취미미술';
+					case 9:
+						return '캘리그라피';
+
+					// 4. 반려동물
+					case 10:
+						return '반려동물전체';
+
+					// 5. 뷰티
+					case 11:
+						return '메이크업';
+					case 12:
+						return '케어';
+					case 13:
+						return '패션';
+					case 14:
+						return '헤어/네일';
+
+					// 6. 사진
+					case 15:
+						return '사진전체';
+
+					// 7. 스포츠
+					case 16:
+						return '골프';
+					case 17:
+						return '농구/축구/야구';
+					case 18:
+						return '댄스';
+					case 19:
+						return '연기/무용/뮤지컬';
+					case 20:
+						return '요가/필라테스';
+					case 21:
+						return '이색스포츠';
+					case 22:
+						return '헬스/PT';
+
+					// 8. 악기
+					case 28:
+						return 'etc';
+					case 23:
+						return '국악';
+					case 24:
+						return '기타';
+					case 25:
+						return '드럼';
+					case 26:
+						return '바이올린';
+					case 27:
+						return '피아노';
+
+					// 9. 언어
+					case 29:
+						return '스피치';
+					case 30:
+						return '영어';
+					case 31:
+						return '제2외국어';
+
+					// 10. 음악
+					case 32:
+						return '보컬';
+					case 33:
+						return '작곡/작사/프로듀싱';
+
+					// 11. 자기계발
+					case 35:
+						return '발표';
+					case 34:
+						return '영업';
+					case 36:
+						return '자격증';
+					case 37:
+						return '자소서';
+					case 38:
+						return '창업';
+					case 39:
+						return '투잡';
+
+					// 12. 체험
+					case 40:
+						return '사주/타로';
+					case 41:
+						return '심리/상담';
+					case 42:
+						return '이색체험';
+
+					// 13. 컴퓨터
+					case 43:
+						return 'PPT';
+					case 44:
+						return 'Python';
+					case 45:
+						return 'SQL';
+					case 46:
+						return '개발';
+					case 47:
+						return '영상';
+					case 48:
+						return '포토샵';
+
+					// 14. 쿠킹
+					case 49:
+						return '커피/차/술';
+					case 50:
+						return '베이킹';
+
+					default:
+						return '기타';
+				}
+			}
+
+			function renderClasses(list) {
+				$('.tot_main').empty();
+				$.each(list, function (index, dto) {
+					var classType = convertClassType(parseInt(dto.class_type)); // 숫자형으로 변환 후 함수 호출
+					var formattedCost = new Intl.NumberFormat('ko-KR', {style: 'currency', currency: 'KRW'}).format(dto.class_cost).replace('₩', ''); // 숫자 포맷팅
+
+					var content = `
+						<div class="main1">
+							<a href="/classPage/${dto.class_id}?page=${currentPage}">
+								<img src="/img/${dto.img_name}" class="class_img" width="300" height="300" />
+								<p>
+								<span class="class_area"><i class="fa-solid fa-location-dot"></i> ${dto.bis_address1}</span>           
+								<span class="class_time"><i class="fa-regular fa-clock"></i> ${dto.class_time}시간</span>
+								<span class="class_type"><i class="fa-solid fa-wand-magic-sparkles"></i> ${classType}</span></p>
+
+								<p class="class_title">${dto.class_title}</p>
+							</a>
+							<p class="class_price">${formattedCost}원</p>
+						</div>`;
+					$('.tot_main').append(content);
+				});
+			}
+
+			function renderPagination(currentPage, totalPages) {
+				var pageNumbers = '';
+				var startPage = Math.floor((currentPage - 1) / 5) * 5 + 1;
+				var endPage = Math.min(startPage + 4, totalPages);
+
+				for (var i = startPage; i <= endPage; i++) {
+					pageNumbers += `<button class="pageNumber ${i === currentPage ? 'currentPage' : ''}" value="${i}">${i}</button>`;
+				}
+				$('#pageNumbers').html(pageNumbers);
+
+				// 페이지 번호 버튼 클릭 이벤트 핸들러
+				$('#pageNumbers .pageNumber').click(function () {
+					currentPage = parseInt($(this).val());
+					loadClasses(currentArea, currentType, $('#sortOption').val(), currentPage, keyword);
+				});
+
+				// 첫 페이지, 이전 페이지, 다음 페이지, 마지막 페이지 버튼 이벤트 핸들러 추가
+				$('#firstPage').off('click').on('click', function () {
+					if (currentPage !== 1) {
+						currentPage = 1;
+						loadClasses(currentArea, currentType, $('#sortOption').val(), currentPage, keyword);
+					}
+				});
+
+				$('#prevPage').off('click').on('click', function () {
+					if (currentPage > 1) {
+						currentPage--;
+						loadClasses(currentArea, currentType, $('#sortOption').val(), currentPage, keyword);
+					}
+				});
+
+				$('#nextPage').off('click').on('click', function () {
+					if (currentPage < totalPages) {
+						currentPage++;
+						loadClasses(currentArea, currentType, $('#sortOption').val(), currentPage, keyword);
+					}
+				});
+
+				$('#lastPage').off('click').on('click', function () {
+					if (currentPage !== totalPages) {
+						currentPage = totalPages;
+						loadClasses(currentArea, currentType, $('#sortOption').val(), currentPage, keyword);
+					}
+				});
+			}
+
+			function loadClasses(area, type, sortCriteria, page, keyword) {
+			        var data = {
+			            page: page,
+			            sortType: sortCriteria,
+			            keyword: keyword || '',
+			            area: area || '',
+			            type: type || ''
+			        };
+
+			        console.log("AJAX 요청 데이터:", data);
+
+			        $.ajax({
+			            url: '/category/data',
+			            type: 'GET',
+			            data: data,
+			            success: function (response) {
+			                renderClasses(response.categoryList);
+			                renderPagination(response.currentPage, response.totalPages);
+			                history.pushState({ page: page, area: area, type: type, sortCriteria: sortCriteria, keyword: keyword }, '', `?page=${page}&area=${area}&type=${type}&sort=${sortCriteria}&keyword=${keyword}`);
+			                console.log(response.categoryList);
+			            },
+			            error: function (xhr, status, error) {
+			                console.log("오류 발생:", xhr.responseText);
+			            }
+			        });
+			    }
+
+			    $('#sortOption').change(function () {
+			        currentPage = 1;
+			        loadClasses(currentArea, currentType, $(this).val(), currentPage, keyword);
+			    });
+
+			    $('#search-form').submit(function (e) {
+			        e.preventDefault();
+			        keyword = $('#search-box').val();
+			        currentPage = 1;
+			        loadClasses(currentArea, currentType, $('#sortOption').val(), currentPage, keyword);
+			    });
+
+			    $('.tag').click(function () {
+			        var type = $(this).data('type');
+			        currentArea = '';
+			        currentType = type;
+			        currentPage = 1;
+			        keyword = ''; // 검색어 초기화
+			        $('#search-box').val(''); // 검색창 초기화
+			        loadClasses(currentArea, currentType, $('#sortOption').val(), currentPage, keyword);
+			    });
+
+			    $(document).on('click', '.pageNumber', function () {
+			        var page = parseInt($(this).text());
+			        currentPage = page;
+			        loadClasses(currentArea, currentType, $('#sortOption').val(), page, keyword);
+			    });
+
+			    var urlParams = new URLSearchParams(window.location.search);
+			    currentArea = window.location.pathname.includes('/area/') ? decodeURIComponent(window.location.pathname.split('/area/')[1]) : '';
+			    currentType = window.location.pathname.includes('/type/') ? decodeURIComponent(window.location.pathname.split('/type/')[1]) : '';
+			    if (urlParams.has('page')) {
+			        currentPage = parseInt(urlParams.get('page'));
+			    } else {
+			        currentPage = 1;
+			    }
+
+			    console.log("초기 로드 - area: " + currentArea);
+			    console.log("초기 로드 - type: " + currentType);
+
+			    loadClasses(currentArea, currentType, 'recent', currentPage, keyword);
+
+			    window.onpopstate = function(event) {
+			        if (event.state) {
+			            currentPage = event.state.page;
+			            currentArea = event.state.area;
+			            currentType = event.state.type;
+			            keyword = event.state.keyword;
+			            loadClasses(currentArea, currentType, event.state.sortCriteria, currentPage, keyword);
+			        }
+			    };
+			});
+	</script>
+</section>
+
+</html>

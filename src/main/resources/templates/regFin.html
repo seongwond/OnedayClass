@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+
+<section layout:fragment="content">
+
+	<head>
+		<link rel="stylesheet" href="/regFin.css" type="text/css" />
+		<link rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+				let priceElements = document.querySelectorAll('.formatted_price');
+				priceElements.forEach(function(element) {
+					let priceText = element.textContent.trim();
+					let price = parseInt(priceText.replace(/[^0-9]/g, ''), 10);
+					if (!isNaN(price)) {
+						let formattedPrice = price.toLocaleString('ko-KR');
+						element.textContent = formattedPrice + '원';
+					}
+				});
+			});
+		</script>
+	</head>
+
+	<br> <br>
+	<div class="head">
+		<div class="head_1">
+			<div id="symbol-off">
+				<span class="material-symbols-outlined"> counter_1 </span>
+			</div>
+
+			<div>나의 예약 정보</div>
+		</div>
+		<div class="head_2">
+			<div id="symbol-on">
+				<span class="material-symbols-outlined"> counter_2 </span>
+			</div>
+			<div>예약 완료</div>
+		</div>
+	</div>
+	<br> <br>
+	<div class="reservationOK">예약 완료</div>
+	<br>
+	<div class="reservationOK">클래스 신청이 정상적으로 처리되었습니다.</div>
+	<br> <br> <br>
+	<hr>
+	<br> <br> <br>
+	<div class="table_div">
+
+		<table>
+			<tr>
+				<td class="table_left">클래스 명</td>
+				<td class="table_right" th:text="${reservationDTO.class_title}">
+					<div class="class_title"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="table_left">클래스 날짜</td>
+				<td class="table_right" th:text="${reservationDTO.reservation_date}"></td>
+			</tr>
+
+			<tr>
+				<td class="table_left">클래스 시간</td>
+				<td class="table_right" th:text="${reservationDTO.reservation_start}"></td>
+			</tr>
+
+			<tr>
+				<td class="table_left">예약 인원</td>
+				<td class="table_right">
+					<span th:text="${reservationDTO.reservation_people} + '인'"></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="table_left">클래스 가격</td>
+				<td class="table_right">
+					<span class="formatted_price" th:text="${reservationDTO.reservation_price} + '원'"></span>
+				</td>
+			</tr>
+		</table>
+		<input type="hidden" id="user_id" name="user_id" th:value="${reservationDTO.user_id}">
+	</div>
+	<br> <br> <br>
+	<div class="button_1">
+		<button type="button" onclick="location.href='/'" style="cursor: pointer;" value="확인" class="button">확인</button>
+	</div>
+	<br> <br> <br>
+
+</section>
+
+</html>

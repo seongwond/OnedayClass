@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<link rel="stylesheet" href="/joinUser1.css" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONETWODAY</title>
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <a href="/"><img src="img/graylogo.png" class="widelogo" alt="로고" width="400"></a>
+    <h1>회원가입</h1>
+    <form name="join" action="joinUser1" method="post" class="join_user">
+        <table>
+            <tr>
+                <td class="big_text">유저 이메일</td>
+            </tr>
+            <tr>
+                <td name="이메일">
+                    <input type="email" name="user_email" placeholder="이메일 입력 (ex.onetwodaycompany@gmail.com)" class="small_text">
+                    <button type="button" onclick="checkDuplicate()" class="checking">중복 확인</button>
+                    <span id="emailMessage" style="display: block;"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="big_text">비밀번호</td>
+            </tr>
+            <tr>
+                <td name="비밀번호"><input type="password" name="user_pw" placeholder="비밀번호 입력 (8자 이상, 특수문자(~,!,@,#,$,%,^,&,*) 중 하나 이상 포함 가능)" class="small_text"></td>
+            </tr>
+            <tr>
+                <td class="big_text">비밀번호 확인</td>
+            </tr>
+            <tr>
+                <td name="비밀번호 확인">
+                    <input type="password" name="user_pw_confirm" placeholder="비밀번호 확인 (8자 이상, 특수문자(~,!,@,#,$,%,^,&,*) 중 하나 이상 포함 가능)" class="small_text">
+                    <button type="button" onclick="checkPassword()" class="checking">비밀번호 확인</button>
+                    <span id="passwordMessage" style="display:block;"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="big_text">이름</td>
+            </tr>
+            <tr>
+                <td name="이름"><input type="text" name="user_name" placeholder="이름을 입력해주세요" class="small_text"></td>
+            </tr>
+            <tr>
+                <td class="big_text">닉네임</td>
+            </tr>
+            <tr>
+                <td name="닉네임"><input type="text" name="user_nickname" placeholder=" 닉네임을 입력해주세요" class="small_text"></td>
+            </tr>
+            <tr>
+                <td class="big_text">성별</td>
+            </tr>
+            <tr>
+                <td name="성별">
+                    <div class="gender-radio">
+                        <input type="radio" name="user_gender" value="남자" id="man" class="man">
+                        <label for="man">남</label>
+                        <input type="radio" name="user_gender" value="여자" id="woman" class="woman">
+                        <label for="woman">여</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="big_text">나이</td>
+            </tr>
+            <tr>
+                <td name="나이">
+                    <div class="select_group">
+                        <select name="user_age" class="age-select">
+                            <option value="">나이 선택</option>
+                            <option value="10">10대</option>
+                            <option value="20">20대</option>
+                            <option value="30">30대</option>
+                            <option value="40">40대</option>
+                            <option value="50">50대</option>
+                            <option value="60">60대</option>
+                        </select>
+                        <div class="custom_select_arrow"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="big_text">휴대폰 번호 입력</td>
+            </tr>
+            <tr>
+                <td name="휴대폰 번호">
+                    <input type="text" name="user_tel" placeholder="휴대폰 번호 입력(‘-’제외 11자리 입력)" class="small_text" oninput="onlyNumberTel(event)">
+                </td>
+            </tr>
+            <tr>
+                <td class="big_text" name="주소">주소<br>
+                    <input type="text" id="sample6_postcode" placeholder="우편번호" class="smaller_text" name="user_postcode">
+                    <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="find_addr"><br>
+                    <input type="text" id="sample6_address" placeholder="주소" class="small_text" name="user_address1"><br>
+                    <input type="text" id="sample6_detailAddress" placeholder="상세주소" class="small_text" name="user_address2"><br>
+                    <input type="text" id="sample6_extraAddress" placeholder="참고항목" class="small_text" name="user_address3">
+                    <input type="hidden" name="user_type" value="0">
+                </td>
+            </tr>
+        </table>
+        <div class="step_button">
+            <input type="submit" value="다음 단계" id="submit" class="joinUser2">
+            <input type="button" value="가입취소" class="back_to_menu" onclick="location.href='/'">
+        </div>
+    </form>
+</body>
+<script>
+    function sample6_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                var addr = '';
+                var extraAddr = '';
+
+                if (data.userSelectedType === 'R') {
+                    addr = data.roadAddress;
+                } else {
+                    addr = data.jibunAddress;
+                }
+
+                if (data.userSelectedType === 'R') {
+                    if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                        extraAddr += data.bname;
+                    }
+                    if (data.buildingName !== '' && data.apartment === 'Y') {
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    if (extraAddr !== '') {
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    document.getElementById("sample6_extraAddress").value = extraAddr;
+
+                } else {
+                    document.getElementById("sample6_extraAddress").value = '';
+                }
+
+                document.getElementById('sample6_postcode').value = data.zonecode;
+                document.getElementById("sample6_address").value = addr;
+                document.getElementById("sample6_detailAddress").focus();
+            }
+        }).open();
+    }
+
+    function validateEmail(email) {
+        var re = /^[a-zA-Z0-9]+@[a-zA-Z]+\.(com)$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    var isEmailValidated = false;
+    var isPasswordValidated = false;
+
+    function checkDuplicate() {
+        var userEmail = document.getElementsByName("user_email")[0].value;
+        var messageElement = document.getElementById("emailMessage");
+
+        if (!validateEmail(userEmail)) {
+            messageElement.innerText = "유효한 이메일 형식을 입력해주세요. (ex.onetwodaycompany@gmail.com)";
+            messageElement.style.color = "red";
+            document.querySelector('input[name="user_email"]').focus();
+            return;
+        }
+
+        fetch("/checkDuplicateEmail", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=UTF-8"
+            },
+            body: JSON.stringify({ userEmail: userEmail })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('서버에서 오류가 발생했습니다.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.duplicate) {
+                    messageElement.innerText = "이미 사용 중인 이메일입니다.";
+                    messageElement.style.color = "red";
+                } else {
+                    messageElement.innerText = "사용 가능한 이메일입니다.";
+                    messageElement.style.color = "green";
+                    isEmailValidated = true;
+                    document.querySelector('input[name="user_pw"]').focus();
+                }
+            })
+            .catch(error => {
+                messageElement.innerText = error.message;
+                messageElement.style.color = "red";
+            });
+    }
+
+    function checkPassword() {
+        var userPassword = document.getElementsByName("user_pw")[0].value;
+        var userPasswordConfirm = document.getElementsByName("user_pw_confirm")[0].value;
+        var messageElement = document.getElementById("passwordMessage");
+
+        var regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d~!@#$%^&*]{8,}$/;
+
+        if (userPassword !== userPasswordConfirm) {
+            messageElement.innerText = "비밀번호가 일치하지 않습니다.";
+            messageElement.style.color = "red";
+            return;
+        }
+
+        if (!regex.test(userPassword)) {
+            messageElement.innerText = "비밀번호는 최소 8자 이상이며, 영문과 숫자를 모두 포함해야 합니다.";
+            messageElement.style.color = "red";
+        } else {
+            messageElement.innerText = "유효한 비밀번호입니다.";
+            messageElement.style.color = "green";
+            isPasswordValidated = true;
+            document.querySelector('input[name="user_name"]').focus();
+        }
+    }
+
+    function resetPasswordValidationState() {
+        var userPassword = document.getElementsByName("user_pw")[0].value;
+        var userPasswordConfirm = document.getElementsByName("user_pw_confirm")[0].value;
+        var messageElement = document.getElementById("passwordMessage");
+        if (!userPassword || !userPasswordConfirm) {
+            messageElement.innerText = "비밀번호를 입력해주세요.";
+            messageElement.style.color = "red";
+        } else {
+            messageElement.innerText = "";
+        }
+        isPasswordValidated = false;
+    }
+
+    function onlyNumberTel(event) {
+        event.target.value = event.target.value.replace(/[^0-9]/g, '');
+
+        if (event.target.value.length > 11) {
+            event.target.value = event.target.value.slice(0, 11);
+        }
+    }
+
+    function submitJoinForm(event) {
+        event.preventDefault();
+
+        if (!isEmailValidated) {
+            document.getElementsByName("user_email")[0].focus();
+            alert("아이디 중복 확인을 해주세요.");
+            return;
+        }
+
+        if (!isPasswordValidated) {
+            document.getElementsByName("user_pw_confirm")[0].focus();
+            alert("비밀번호 확인을 해주세요.");
+            return;
+        }
+
+        var formElements = {
+            user_email: document.querySelector('input[name="user_email"]'),
+            user_pw: document.querySelector('input[name="user_pw"]'),
+            user_pw_confirm: document.querySelector('input[name="user_pw_confirm"]'),
+            user_name: document.querySelector('input[name="user_name"]'),
+            user_nickname: document.querySelector('input[name="user_nickname"]'),
+            user_gender: document.querySelector('input[name="user_gender"]:checked'),
+            user_age: document.querySelector('select[name="user_age"]'),
+            user_tel: document.querySelector('input[name="user_tel"]'),
+            user_postcode: document.querySelector('input[name="user_postcode"]'),
+            user_address1: document.querySelector('input[name="user_address1"]'),
+            user_address2: document.querySelector('input[name="user_address2"]'),
+            user_address3: document.querySelector('input[name="user_address3"]')
+        };
+
+        for (var key in formElements) {
+            var element = formElements[key];
+            if (!element) {
+                var genderElement = document.getElementsByName("user_gender");
+                if (!genderElement[0].checked && !genderElement[1].checked) {
+                    alert("성별을(를) 선택해주세요.");
+                    genderElement[0].focus();
+                    return;
+                } else {
+                    var tdElement = document.querySelector(`td[name="성별"]`);
+                    var tdName = tdElement ? tdElement.getAttribute('name') : "성별";
+                    alert(`${tdName}을(를) 입력해주세요.`);
+                    genderElement[0].focus();
+                    return;
+                }
+            }
+            if (element.value === "") {
+                var tdElement = element.closest('td');
+                var tdName = tdElement ? tdElement.getAttribute('name') : key;
+                alert(`${tdName}을(를) 입력해주세요.`);
+                element.focus();
+                return;
+            }
+        }
+
+        var formData = {};
+        for (var key in formElements) {
+            formData[key] = formElements[key].value;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/joinUser1",
+            data: JSON.stringify(formData),
+            contentType: "application/json",
+            success: function (response) {
+                var userId = response.user_id;
+                window.location.href = "/joinUser2?user_id=" + userId;
+            },
+            error: function (error) {
+                console.error("Error:", error);
+                alert("가입 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
+            }
+        });
+    }
+
+    document.querySelector('form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        submitJoinForm(e);
+    });
+
+    document.getElementsByName("user_email")[0].addEventListener('input', function () {
+        var userEmail = this.value;
+        var messageElement = document.getElementById("emailMessage");
+        if (!userEmail) {
+            messageElement.innerText = "이메일을 입력해주세요.";
+            messageElement.style.color = "red";
+        } else {
+            messageElement.innerText = "";
+        }
+        isEmailValidated = false;
+    });
+
+    document.getElementsByName("user_pw")[0].addEventListener('input', resetPasswordValidationState);
+    document.getElementsByName("user_pw_confirm")[0].addEventListener('input', resetPasswordValidationState);
+
+    $(document).ready(function () {
+        $('.gender-radio input[type="radio"]').on('change', function () {
+            $('#user_age').focus();
+        });
+
+        $('#user_age').on('change', function () {
+            $('#user_tel').focus();
+        });
+    });
+</script>
+</html>

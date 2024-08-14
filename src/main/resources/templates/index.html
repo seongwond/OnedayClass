@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+
+<section layout:fragment="content">
+
+   <head>
+
+<link
+   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+   rel="stylesheet">
+<link rel="stylesheet"
+   href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ONETWODAY</title>
+
+<!-- Link Swiper's(추천,인기,신규) CSS -->
+<link rel="stylesheet"
+   href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<style>
+/* Main 슬라이드 styles */
+.tot-slider {
+   position: relative;
+   max-width: 1080px;
+   /* 이미지의 최대 너비에 맞게 조정하세요. */
+   margin: auto;
+   display: flex;
+   /* Flexbox를 사용하여 자식 요소들을 중앙 정렬합니다. */
+   flex-direction: column;
+   /* 자식 요소들을 세로로 배치합니다. */
+   align-items: center;
+   /* 가로 중앙 정렬 */
+   margin-top: 50px;
+   border-radius: 2%;
+}
+
+.main-slide {
+   display: none;
+   /* 기본적으로 슬라이드는 숨겨져 있습니다. */
+   width: 100%;
+   /* 슬라이드 너비를 부모 요소에 맞춥니다. */
+   flex-shrink: 0;
+   /* 이미지 크기에 따라 슬라이드 크기가 줄어들지 않도록 합니다. */
+   border-radius: 2%;
+}
+
+.main-slide img {
+   width: 1080px;
+   /* 이미지의 너비를 600px로 고정 */
+   height: 605px;
+   /* 이미지의 높이를 400px로 고정 */
+   object-fit: cover;
+   /* 이미지 비율을 유지하면서 주어진 너비와 높이에 맞게 조정 */
+   border-radius: 2%;
+}
+
+.indicator {
+   cursor: pointer;
+   height: 15px;
+   width: 15px;
+   margin: 0 2px;
+   background-color: rgb(255, 222, 179);
+   border-radius: 50%;
+   display: inline-block;
+   transition: background-color 0.6s ease;
+}
+
+.actives, .indicator:hover {
+   background-color: rgb(253, 159, 108);
+}
+
+#prevBtn, #nextBtn {
+   cursor: pointer;
+   position: absolute;
+   top: 50%;
+   transform: translateY(-50%);
+   width: auto;
+   padding: 16px;
+   color: white;
+   font-weight: bold;
+   font-size: 18px;
+   transition: 0.6s ease;
+   user-select: none;
+   background-color: rgba(0, 0, 0, 0.1);
+   border: none;
+}
+
+#nextBtn {
+   right: 10px;
+   /* 오른쪽 버튼 위치 조정 */
+}
+
+#prevBtn {
+   left: 10px;
+   /* 왼쪽 버튼 위치 조정 */
+}
+
+.slider-indicators {
+   display: flex;
+   /* 인디케이터들을 가로로 나열합니다. */
+   position: absolute;
+   justify-content: center;
+   /* 중앙 정렬 */
+   width: 100%;
+   /* 부모 요소 너비에 맞춥니다. */
+}
+
+/* Demo styles(추천,인기,신규)*/
+.index {
+   margin: 0;
+   padding: 0;
+   background-color: white;
+}
+
+.swiper {
+   width: 1500px;
+   height: 600px;
+   margin: 20px auto;
+}
+
+.interest_order {
+   margin-top: 50px;
+   margin-bottom: 20px;
+   display: flex;
+   justify-content: left;
+   font-size: 2em;
+   text-align: center;
+   padding: 0.4em 1em 0.43m 0.53m;
+   margin: 0.5em 0em;
+   color: rgb(187, 82, 19);
+   border-left: 10px solid rgb(187, 82, 19);
+   border-bottom: 2px rgb(187, 82, 19) solid;
+   font-weight: bold;
+   width: 1440px;
+   line-height: 60px;
+   margin-left: 20px;
+}
+
+.heart_order {
+   margin-top: 50px;
+   margin-bottom: 20px;
+   display: flex;
+   justify-content: left;
+   font-size: 2em;
+   text-align: center;
+   padding: 0.4em 1em 0.43m 0.53m;
+   margin: 0.5em 0em;
+   color: rgb(185, 19, 98);
+   border-left: 10px solid rgb(185, 19, 98);
+   border-bottom: 2px rgb(185, 19, 98) solid;
+   font-weight: bold;
+   width: 1440px;
+   line-height: 60px;
+   margin-left: 20px;
+}
+
+.swiper-slide {
+   width: 400px;
+   height: 400px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+
+.swiper-slide img {
+   width: 400px;
+   height: 300px;
+   border: 1px solid black;
+   align-items: center;
+}
+
+.p_title {
+   margin-top: 25px;
+   color: black;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   width: 400px;
+   transition: font-weight 0.1s ease;
+}
+
+.class_style {
+   background-color: rgb(255, 235, 223);
+   padding: 4%;
+   border-radius: 20px;
+   transition: all 0.5s ease;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   /* 기본 상태의 넓은 그림자 */
+}
+
+.class_style:hover {
+   transform: translateY(-10px);
+   /* 더 높이 올리기 */
+   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+   /* 아래쪽으로만 진한 그림자 */
+}
+
+.class_style img {
+   border: none;
+   transition: transform 0.7s ease;
+}
+
+.class_style:hover img {
+   transform: scale(1.05);
+   /* 이미지 확대 효과 */
+}
+
+.class_style:hover .p_title {
+   font-weight: 600;
+   /* 호버 시 글씨를 약간 더 진하게 */
+   color: rgb(113, 113, 113);
+}
+
+.class_img {
+   border-radius: 4%;
+}
+
+.swiper-button-next, .swiper-button-prev {
+   color: rgb(255, 128, 0);
+}
+
+.swiper-button-next {
+   right: 0px;
+}
+
+.swiper-button-prev {
+   left: 0px;
+}
+
+.main_button {
+   display: flex;
+   justify-content: center;
+}
+
+/* input 스타일 */
+.tag {
+   width: none;
+   height: 45px;
+   border: none;
+   background-color: rgb(251, 218, 210);
+   color: rgb(193, 108, 57);
+   font-size: 17.5px;
+   font-weight: bold;
+   border-radius: 20px;
+   margin: 5px;
+   transition: all 0.3s ease-in-out;
+   background-repeat: no-repeat;
+
+}
+
+.tag_1 input {
+   background-image: url(/img/tag_1.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 25px;
+   background-position: 6px 5px;
+}
+.tag_2 input {
+   background-image: url(/img/tag_2.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px;
+}
+.tag_3 input {
+   background-image: url(/img/tag_3.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px; 
+}
+.tag_4 input {
+   background-image: url(/img/tag_4.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px; 
+}
+.tag_5 input {
+   background-image: url(/img/tag_5.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px; 
+}
+
+.tag_6 input {
+   background-image: url(/img/tag_6.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px; 
+}
+.tag_7 input {
+   background-image: url(/img/tag_7.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px; 
+}
+.tag_8 input {
+   background-image: url(/img/tag_8.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px;  
+}
+.tag_9 input {
+   background-image: url(/img/tag_9.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px;  
+}
+.tag_10 input {
+   background-image: url(/img/tag_10.png);
+   background-size: 32px;
+   background-repeat: no-repeat;
+   text-indent: 30px;
+   background-position: 6px 5px;  
+}
+
+/* 버튼 hover 효과 */
+.main_button .tag:hover {
+   background-color: rgb(243, 211, 188);
+   color: white;
+   transform: scale(1.1);
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+</style>
+   </head>
+
+   <div class="index">
+      <br>
+      <br>
+
+      <!-- Main(메인 슬라이드) -->
+      <div class="tot-slider">
+         <div class="main-slide">
+            <img src="/img/slide5.gif" alt="이미지 1">
+         </div>
+         <div class="main-slide">
+            <a href="userPage4"><img src="/img/slide2.gif" alt="이미지 2"></a>
+         </div>
+         <div class="main-slide">
+            <img src="/img/slide3.gif" alt="이미지 3">
+         </div>
+         <button id="prevBtn">
+            <i class="fa-solid fa-arrow-left"></i>`
+         </button>
+         <button id="nextBtn">
+            <i class="fa-solid fa-arrow-right"></i>
+         </button>
+      </div>
+      <br>
+      <div class="slider-indicators">
+         <span class="indicator" data-slide-to="0"></span> <span
+            class="indicator" data-slide-to="1"></span> <span class="indicator"
+            data-slide-to="2"></span>
+      </div>
+      <br>
+      <br>
+
+      <div class="tot_button">
+         <div class="main_button">
+            <a th:href="@{/category/type/5}" class="tag_1">      
+               <input class="tag" type="button" value="  향기 가득한 향/초/비누  " data-type="향기"></a>
+                
+            <a th:href="@{/category/type/11}" class="tag_2">
+               <input class="tag" type="button" value="  청담샵 한발자국 메이크업  " data-type="메이크업"></a>
+                
+            <a th:href="@{/category/type/19}" class="tag_3">
+               <input class="tag" type="button" value="  전율이 돋는 연기/무용/뮤지컬  " data-type="연기"></a>
+                
+            <a th:href="@{/category/type/39}" class="tag_4">
+               <input class="tag" type="button" value="  요즘 대세 투잡  " data-type="투잡"></a>
+                
+            <a th:href="@{/category/type/42}" class="tag_5">
+               <input class="tag" type="button" value="  지루할땐? 이색체험  " data-type="이색체험"></a>
+               
+         </div>
+         <div class="main_button">
+            <a th:href="@{/category/type/49}" class="tag_6">
+               <input class="tag" type="button" value="  꿈빛파티시엘 베이킹  " data-type="베이킹"></a>
+               
+            <a th:href="@{/category/type/7}"  class="tag_7">
+               <input class="tag" type="button" value="  아이패드만 있다면 디지털드로잉  " data-type="디지털드로잉"></a> 
+               
+            <a th:href="@{/category/type/23}" class="tag_8">   
+               <input class="tag" type="button" value="  우리의 것 국악  " data-type="국악"></a>
+                
+            <a th:href="@{/category/type/40}" class="tag_9">
+               <input class="tag" type="button" value="  운명을 점쳐봐 사주/타로  " data-type="사주"></a>
+                
+            <a th:href="@{/category/type/10}" class="tag_10">
+               <input class="tag" type="button" value="  주인님께 집사가 반려동물  " data-type="반려동물"></a>
+         </div>
+      </div>
+
+<br>
+
+      <div class="swiper">
+         <div class="interest_order">&nbsp; &nbsp;추천순</div>
+         <br>
+         <br>
+         <div class="swiper-wrapper">
+            <!-- 이미지와 클래스 제목을 클릭하면 "/classPage/{id}" 로 이동 -->
+            <div class="swiper-slide" th:each="list : ${list}">
+               <div class="class_style">
+                  <a th:href="@{'/classPage/' + ${list.class_id}}"> <img
+                     th:src="@{'/img/' + ${list.img_name}}" class="class_img"
+                     width="300" height="300" />
+                     <p class="p_title" th:text="${list.class_title}"></p>
+                  </a>
+               </div>
+            </div>
+         </div>
+
+         <div class="swiper-button-next"></div>
+         <div class="swiper-button-prev"></div>
+
+      </div>
+
+      <div class="swiper">
+         <div class="heart_order">&nbsp; &nbsp;인기순</div>
+         <br>
+         <br>
+         <div class="swiper-wrapper">
+            <!-- 이미지와 클래스 제목을 클릭하면 "/classPage/{id}" 로 이동 -->
+            <div class="swiper-slide" th:each="list2 : ${list2}">
+               <div class="class_style">
+                  <a th:href="@{'/classPage/' + ${list2.class_id}}"> <img
+                     th:src="@{'/img/' + ${list2.img_name}}" class="class_img"
+                     width="300" height="300" />
+                     <p class="p_title" th:text="${list2.class_title}"></p>
+                  </a>
+               </div>
+            </div>
+         </div>
+
+         <div class="swiper-button-next"></div>
+         <div class="swiper-button-prev"></div>
+
+      </div>
+   </div>
+
+   <!-- Swiper(추천,인기,신규) JS -->
+   <script
+      src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+   <!-- Initialize Swiper(추천,인기,신규) -->
+   <script>
+      const swiperEl = document.querySelector('.swiper');
+      const swiperSlides = swiperEl.querySelectorAll('.swiper-slide');
+
+      if (swiperSlides.length === 1) {
+         swiperEl.classList.add('swiper-disabled');
+         swiperEl.style.pointerEvents = 'none';
+      } else {
+         const swiper = new Swiper('.swiper', {
+            slidesPerView: 3, // 한 번에 보여줄 슬라이드 개수
+            slidesPerGroup: 1, // 한 번에 넘어가는 슬라이드 개수
+            loop: true,
+            loopFix: true,
+            autoplay: {
+               delay: 5000, // 자동 재생 지연 시간
+               disableOnInteraction: false
+            },
+            pagination: {
+               el: '.swiper-pagination',
+               type: 'fraction',
+            },
+            navigation: {
+               nextEl: '.swiper-button-next',
+               prevEl: '.swiper-button-prev',
+            },
+            speed: 1200, // 전환 속도
+         });
+      }
+   </script>
+   <script>
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('.main-slide');
+      const slideCount = slides.length;
+      const nextBtn = document.getElementById('nextBtn');
+      const prevBtn = document.getElementById('prevBtn');
+      const indicators = document.querySelectorAll('.indicator');
+
+      function showSlide(n) {
+         slides.forEach(slide => slide.style.display = 'none');
+         indicators.forEach(indicator => indicator.classList.remove('actives'));
+         slides[n].style.display = 'block';
+         indicators[n].classList.add('actives');
+      }
+
+      function nextSlide() {
+         currentSlide = (currentSlide + 1) % slideCount;
+         showSlide(currentSlide);
+      }
+
+      function prevSlide() {
+         currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+         showSlide(currentSlide);
+      }
+
+      nextBtn.addEventListener('click', nextSlide);
+      prevBtn.addEventListener('click', prevSlide);
+
+      indicators.forEach((indicator, index) => {
+         indicator.addEventListener('click', () => {
+            showSlide(index);
+         });
+      });
+
+      document.addEventListener('DOMContentLoaded', () => {
+         showSlide(currentSlide);
+         setInterval(nextSlide, 5000); // 3초마다 자동 슬라이드
+      });
+   </script>
+</html>

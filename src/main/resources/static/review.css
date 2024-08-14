@@ -1,0 +1,99 @@
+@charset "UTF-8";
+
+.review_write {
+   text-align: center;
+   justify-content: center;
+   padding: 80px;
+}
+
+.class_img {
+   margin-right: 10px;
+   border-radius: 10px;
+}
+
+.class_img img{
+   border-radius: 5px;
+   width: 180px;
+   height: 150px;
+}
+
+.class_title, .user_studydate {
+   text-align: center;
+   font-size: 17px;
+}
+
+.class_review {
+   font-size: 24px;
+   font-weight: bold;
+}
+
+#reviewContents {
+   width: 550px;
+   height: 300px;
+   padding: 10px;
+   box-sizing: border-box;
+   border: solid 1.5px #D3D3D3;
+   border-radius: 5px;
+   font-size: 18px;
+   resize: none;
+}
+
+#submit2 {
+   width: 100px;
+   height: 38px;
+   border: none;
+   background-color: #E2BFB3;
+   color: white;
+   font-size: 18px;
+   font-weight: bold;
+   border-radius: 20px;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+}
+
+#submit2:hover {
+   background-color: brown;
+}
+
+.star-tot {
+   display: flex;
+   justify-content: center;
+}
+
+.star-rating {
+   display: flex;
+   flex-direction: row-reverse;
+   font-size: 2.25rem;
+   line-height: 2.5rem;
+   justify-content: center;
+   align-items: center;
+   padding: 0 0.2em;
+   text-align: center;
+   width: 5em;
+}
+
+.star-rating input {
+   display: none;
+}
+
+.star-rating label {
+   -webkit-text-fill-color: transparent;
+   /* Will override color (regardless of order) */
+   -webkit-text-stroke-width: 2.3px;
+   -webkit-text-stroke-color: #2b2a29;
+   cursor: pointer;
+}
+
+.star-rating :checked ~label {
+   -webkit-text-fill-color: gold;
+}
+
+.star-rating label:hover, .star-rating label:hover ~label {
+   -webkit-text-fill-color: #fff58c;
+}
+
+.star {
+   font-size: 40px; /* 별 크기 설정 */
+   padding: 0 3px; /* 별 간격 설정 */
+   cursor: pointer;
+}

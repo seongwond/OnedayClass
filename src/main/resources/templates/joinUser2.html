@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>onetwoday</title>
+	 <link rel="stylesheet" href="/joinUser2.css" type="text/css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+
+
+<body>
+	<form action="joinUser2" method="post">
+
+		<main>
+			<br> <br> <br>
+			<div class="tot_login_interests">
+				<div class="widBlack_img">
+					<img src="img/widBlack.png" alt="로고" width="530" height="100">
+				</div>
+				<br>
+				<div class="interests_title">관심분야</div>
+				<br> <br> <br>
+				<div class="interests_detail">여러분의 더 나은 취미생활을 위해 최소 1~3가지 분야를
+					선택해주세요.</div>
+			</div>
+		</main>
+
+		<div class="tot_box">
+			<div class="image-container">
+				<div class="box">
+					<p class="button">
+						<input type="checkbox" id="checkbox2" class="checkbox-input finance-checkbox"
+							name="interest_type" onchange="handleCheckboxChange(this)" value="2"> <label for="checkbox2"
+							class="checkbox-label"> <img src="img/002-won.png" style="opacity: 0.2" alt="Unchecked"
+								class="checkbox-img"> <img src="img/002-won.png" alt="Checked" class="checkbox-img">
+						</label>
+					</p>
+					<input id="input2" type="button" value="금융">
+				</div>
+
+				<div class="box">
+					<p class="button">
+						<input type="checkbox" id="checkbox3" class="checkbox-input art-checkbox" name="interest_type"
+							onchange="handleCheckboxChange(this)" value="3"> <label for="checkbox3"
+							class="checkbox-label"> <img src="img/003-palette.png" style="opacity: 0.2" alt="Unchecked"
+								class="checkbox-img"> <img src="img/003-palette.png" alt="Checked" class="checkbox-img">
+						</label>
+					</p>
+					<input id="input3" type="button" value="미술">
+				</div>
+				<div class="box">
+					<p class="button">
+						<input type="checkbox" id="checkbox4" class="checkbox-input pet-checkbox" name="interest_type"
+							onchange="handleCheckboxChange(this)" value="4"> <label for="checkbox4"
+							class="checkbox-label"> <img src="img/004-pet-care.png" style="opacity: 0.2" alt="Unchecked"
+								class="checkbox-img"> <img src="img/004-pet-care.png" alt="Checked"
+								class="checkbox-img">
+						</label>
+					</p>
+					<input id="input4" type="button" value="반려동물">
+				</div>
+				<div class="box">
+					<p class="button">
+						<input type="checkbox" id="checkbox5" class="checkbox-input makeup-checkbox"
+							name="interest_type" onchange="handleCheckboxChange(this)" value="5"> <label for="checkbox5"
+							class="checkbox-label"> <img src="img/005-makeup.png" style="opacity: 0.2" alt="Unchecked"
+								class="checkbox-img"> <img src="img/005-makeup.png" alt="Checked" class="checkbox-img">
+						</label>
+					</p>
+					<input id="input5" type="button" value="메이크업">
+				</div>
+			</div>
+
+			<div class="image-container">
+				<div class="box">
+					<p class="button">
+						<input type="checkbox" id="checkbox6" class="checkbox-input photographer-checkbox"
+							name="interest_type" onchange="handleCheckboxChange(this)" value="6"> <label for="checkbox6"
+							class="checkbox-label"> <img src="img/006-photographer.png" style="opacity: 0.2"
+								alt="Unchecked" class="checkbox-img"> <img src="img/006-photographer.png" alt="Checked"
+								class="checkbox-img">
+						</label>
+					</p>
+					<input id="input6" type="button" value="사진">
+				</div>
+
+				<div class="box">
+					<p class="button">
+						<input type="checkbox" id="checkbox7" class="checkbox-input sports-checkbox"
+							name="interest_type" onchange="handleCheckboxChange(this)" value="7"> <label for="checkbox7"
+							class="checkbox-label"> <img src="img/007-sports.png" style="opacity: 0.2" alt="Unchecked"
+								class="checkbox-img"> <img src="img/007-sports.png" alt="Checked" class="checkbox-img">
+						</label>
+					</p>
+					<input id="input7" type="button" value="스포츠">
+				</div>
+				<div class="box">
+					<p class="button">
+						<input type="checkbox" id="checkbox8" class="checkbox-input music-checkbox" name="interest_type"
+							onchange="handleCheckboxChange(this)" value="8"> <label for="checkbox8"
+							class="checkbox-label"> <img src="img/008-music.png" style="opacity: 0.2" alt="Unchecked"
+								class="checkbox-img"> <img src="img/008-music.png" alt="Checked" class="checkbox-img">
+						</label>
+					</p>
+					<input id="input8" type="button" value="악기">
+				</div>
+				<div class="box">
+					<p class="button">
+						<input type="checkbox" id="checkbox9" class="checkbox-input languages-checkbox"
+							name="interest_type" onchange="handleCheckboxChange(this)" value="9"> <label for="checkbox9"
+							class="checkbox-label"> <img src="img/009-languages.png" style="opacity: 0.2"
+								alt="Unchecked" class="checkbox-img"> <img src="img/009-languages.png" alt="Checked"
+								class="checkbox-img">
+						</label>
+					</p>
+					<input id="input9" type="button" value="언어">
+				</div>
+			</div>
+
+			<div class="image-container">
+				<div class="box">
+					<p class="button">
+						<input type="checkbox" id="checkbox10" class="checkbox-input singing-checkbox"
+							name="interest_type" onchange="handleCheckboxChange(this)" value="10"> <label
+							for="checkbox10" class="checkbox-label"> <img src="img/010-singing.png" style="opacity: 0.2"
+								alt="Unchecked" class="checkbox-img"> <img src="img/010-singing.png" alt="Checked"
+								class="checkbox-img">
+						</label>
+					</p>
+					<input id="input10" type="button" value="노래">
+				</div>
+
+				<div class="box">
+					<p class="button">
+						<input type="checkbox" id="checkbox11" class="checkbox-input self-checkbox" name="interest_type"
+							onchange="handleCheckboxChange(this)" value="11"> <label for="checkbox11"
+							class="checkbox-label"> <img src="img/011-self-awareness.png" style="opacity: 0.2"
+								alt="Unchecked" class="checkbox-img"> <img src="img/011-self-awareness.png"
+								alt="Checked" class="checkbox-img">
+						</label>
+					</p>
+					<input id="input11" type="button" value="자기계발">
+				</div>
+				<div class="box">
+					<p class="button">
+						<input type="checkbox" id="checkbox12" class="checkbox-input doctors-checkbox"
+							name="interest_type" onchange="handleCheckboxChange(this)" value="12"> <label
+							for="checkbox12" class="checkbox-label"> <img src="img/012-doctors-office.png"
+								style="opacity: 0.2" alt="Unchecked" class="checkbox-img"> <img
+								src="img/012-doctors-office.png" alt="Checked" class="checkbox-img">
+						</label>
+					</p>
+					<input id="input12" type="button" value="체험">
+				</div>
+				<div class="box">
+					<p class="button">
+						<input type="checkbox" id="checkbox13" class="checkbox-input hacker-checkbox"
+							name="interest_type" onchange="handleCheckboxChange(this)" value="13"> <label
+							for="checkbox13" class="checkbox-label"> <img src="img/013-hacker.png" style="opacity: 0.2"
+								alt="Unchecked" class="checkbox-img"> <img src="img/013-hacker.png" alt="Checked"
+								class="checkbox-img">
+						</label>
+					</p>
+					<input id="input13" type="button" value="컴퓨터">
+				</div>
+			</div>
+
+			<div class="image-container">
+				<div class="box">
+					<p class="button">
+						<input type="checkbox" id="checkbox14" class="checkbox-input cooking-checkbox"
+							name="interest_type" onchange="handleCheckboxChange(this)" value="14"> <label
+							for="checkbox14" class="checkbox-label"> <img src="img/014-bake.png" style="opacity: 0.2"
+								alt="Unchecked" class="checkbox-img"> <img src="img/014-bake.png" alt="Checked"
+								class="checkbox-img">
+						</label>
+					</p>
+					<input id="input14" type="button" value="쿠킹">
+				</div>
+				<div class="box">
+					<p class="button">
+						<input type="checkbox" id="checkbox01" class="checkbox-input handmade-checkbox"
+							name="interest_type" onchange="handleCheckboxChange(this)" value="1"> <label
+							for="checkbox01" class="checkbox-label"> <img src="img/001-hand-made.png"
+								style="opacity: 0.2" alt="Unchecked" class="checkbox-img"> <img
+								src="img/001-hand-made.png" alt="Checked" class="checkbox-img">
+						</label>
+					</p>
+					<input id="input1" type="button" value="핸드메이드">
+				</div>
+			</div>
+			<div class="button">
+				<input type="button" value="가입완료" id="submit" >
+				<input type="button" value="가입취소" id="cancellation">
+				<br> <br> <br>
+			</div>
+			<br> <br> <br> <br> <br>
+		</div>
+
+
+	</form>
+	<script>
+		function getUserIdFromQuery() {
+			var queryParams = new URLSearchParams(window.location.search);
+			return queryParams.get('user_id');
+		}
+
+		function handleCheckboxChange(checkbox) {
+			var checkboxes = document.querySelectorAll('input[name="interest_type"]:checked');
+			var selectedInterests = Array.from(checkboxes).map(function (checkbox) {
+				return checkbox.value;
+			});
+
+			if (checkbox.checked) {
+				if (selectedInterests.length > 3) {
+					checkbox.checked = false;
+					window.alert('최대 3개까지 선택할 수 있습니다.');
+				}
+			}
+		}
+
+		function handleSubmit() {
+			var checkboxes = document.querySelectorAll('input[name="interest_type"]:checked');
+			var selectedInterests = Array.from(checkboxes).map(function (checkbox) {
+				return checkbox.value;
+			});
+
+			if (selectedInterests.length > 0 && selectedInterests.length <= 3) {
+				var xhr = new XMLHttpRequest();
+				xhr.open("POST", "/joinUser2", true);
+				xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8"); // JSON 형태로 전송하기 위해 헤더 변경
+				xhr.onreadystatechange = function () {
+					if (xhr.readyState === 4 && xhr.status === 200) {
+						console.log(xhr.responseText);
+						window.location.href = "/joinFin";
+					}
+				};
+				var data = JSON.stringify({ // JSON 형태로 데이터 생성
+					user_id: getUserIdFromQuery(),
+					interest_type1: selectedInterests[0] || '',
+					interest_type2: selectedInterests[1] || '',
+					interest_type3: selectedInterests[2] || ''
+				});
+				xhr.send(data);
+			} else {
+				window.alert('1개 이상 3개 이하의 관심사를 선택해주세요.');
+			}
+		}
+
+		document.getElementById('submit').addEventListener('click', handleSubmit);
+
+		document.getElementById('cancellation').addEventListener('click', function () {
+			if (confirm("정말로 회원가입을 취소하시겠습니까? 모든 정보가 삭제됩니다.")) {
+				var user_id = getUserIdFromQuery();
+				fetch('/cancelJoin?user_id=' + user_id, {
+					method: 'POST',
+				})
+					.then(response => response.json())
+					.then(data => {
+						alert("회원가입 취소되었습니다.");
+						window.location.href = "/";
+					})
+					.catch((error) => {
+						console.error('Error:', error);
+					});
+			}
+		});
+	</script>
+</body>
+
+</html>

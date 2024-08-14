@@ -1,0 +1,129 @@
+@charset "UTF-8";
+
+    body {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         height: 100vh;
+         flex-direction: column;
+      }
+
+      header {
+         top: 0;
+         text-align: left;
+         position: absolute;
+         left: 0;
+      }
+
+      .content {
+         width: 35%;
+      }
+
+      .aside {
+         display: none;
+      }
+
+      @media (min-width : 768px) {
+         body {
+            flex-direction: row;
+         }
+
+         .aside {
+            display: block;
+            padding: 20px;
+         }
+      }
+
+      h1 {
+         font-size: 95px;
+         color: #FFBE98;
+         text-shadow: 3px 4px 4px #6A1D1D;
+         text-align: center;
+         margin-top: 0;
+         margin-bottom: 0;
+      }
+
+      table {
+         text-align: center;
+      }
+
+      .login_img {
+         width: 450px;
+         height: 100px;
+         margin-top: 25%;
+         margin-left: 25%;
+      }
+
+
+      .login_input {
+         display: flex;
+         flex-direction: column;
+         margin-top: 10px;
+      }
+
+      .login_email,
+      .login_pw {
+         width: 500px;
+         height: 60px;
+         border: none;
+         font-size: 20px;
+      }
+
+      .login_email {
+         border-block: solid;
+         border-width: 0.8px;
+         border-color: #6A1D1D;
+      }
+
+      .login_pw {
+         border-bottom: solid;
+         border-width: 0.8px;
+         border-color: #6A1D1D;
+      }
+
+      .login_email:focus::placeholder,
+      .login_pw:focus::placeholder {
+         color: transparent;
+      }
+
+      .login_email::placeholder,
+      .login_pw::placeholder {
+         font-size: 12px;
+      }
+
+      .login_email:focus,
+      .login_pw:focus {
+         outline: none;
+      }
+
+      .login_button {
+         width: 500px;
+         height: 60px;
+         background-color: rgb(255, 190, 152, 0.5);
+         border: solid #FFBE98;
+         border-radius: 5px;
+         color: #6A1D1D;
+         font-weight: bolder;
+         border-width: 1.8px;
+         font-size: 20px;
+         margin-top: 20px;
+      }
+
+      .joinMain,
+      .findidpw {
+         width: 250px;
+         height: 50px;
+         background-color: #6A1D1D;
+         border: solid #FFBE98;
+         color: #FFBE98;
+         font-size: 15px;
+         margin-top: 20px;
+      }
+
+      .findidpw {
+         border-left: none;
+      }
+
+      .errMsg {
+         color: red;
+      }

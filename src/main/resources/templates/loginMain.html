@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>onetwoday</title>
+	<link rel="stylesheet" href="/loginMain.css" type="text/css" />
+	<link rel="stylesheet" href="/style.css" type="text/css" />
+</head>
+
+<body>
+	<div class="content">
+		<header>
+			<a href="/"><img src="img/widPeach.png" alt="로고" class="login_img"></a>
+		</header>
+		<aside class="aside"></aside>
+		<section class="section">
+			<form name="login" th:action="loginMain.do" method="post" class="article">
+
+				<div th:if="${param.error}">
+					<span class="errMsg"> 사용자ID 또는 비밀번호를 확인해 주세요.</span>
+				</div>
+
+
+				<table>
+					<h1>LOGIN</h1>
+
+					<tr>
+						<td style="height: 10px;"></td>
+					</tr>
+					<tr class="login_input">
+						<td><input type="text" name="username" placeholder="이메일" class="login_email"> <input
+								type="password" name="password" placeholder="비밀번호" class="login_pw"></td>
+					</tr>
+					<tr>
+						<td style="height: 10px;"></td>
+					</tr>
+					<tr>
+						<td colspan="2"><input type="submit" value="로그인" class="login_button"></td>
+					</tr>
+					<tr>
+						<td style="height: 20px;"></td>
+					</tr>
+					<tr>
+						<td><input type="button" value="회원가입" class="joinMain" onclick="location.href='joinMain'">
+							<input type="button" value="PW 찾기" class="findidpw" onclick="openPopup()">
+						</td>
+					</tr>
+				</table>
+			</form>
+		</section>
+		<aside class="aside"></aside>
+	</div>
+	<!-- 메시지 표시 -->
+				<p th:text="${message}" id="serverMessage" style="display: none;"></p>
+</body>
+
+<script th:inline="javascript">
+					/*<![CDATA[*/
+					document.addEventListener("DOMContentLoaded", function () {
+						var messageElement = document.getElementById('serverMessage');
+						var message = messageElement.innerText;
+
+						if (message) {
+							alert(message);
+							// 성공 메시지인지 확인 (예: 성공 메시지에 "성공"이라는 단어가 포함되어 있는 경우)
+
+						}
+						
+					});
+					/*]]>*/
+				</script>
+<script>
+	
+	
+	function openPopup() {
+		var popupPageURL = "passwordpopup";
+
+		var screenWidth = window.innerWidth;
+		var screenHeight = window.innerHeight;
+
+		var popupWidth = 800;
+		var popupHeight = 660;
+
+		var popupLeft = (screenWidth - popupWidth) / 2;
+		var popupTop = (screenHeight - popupHeight) / 2;
+
+		window.open(popupPageURL, '_blank', `width=${popupWidth}, height=${popupHeight}, left=${popupLeft}, top=${popupTop}`);
+	}
+</script>
+
+
+</html>

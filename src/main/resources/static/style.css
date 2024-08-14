@@ -1,0 +1,81 @@
+@charset "UTF-8";
+
+@font-face {
+	font-family: 'SUITE-Regular';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+}
+/* Chrome, Safari */
+     input:-webkit-autofill {
+         -webkit-box-shadow: 0 0 0px 1000px white inset;
+         box-shadow: 0 0 0px 1000px white inset;
+         -webkit-text-fill-color: black;
+     }
+     
+     /* Firefox */
+     input:-moz-autofill {
+         box-shadow: 0 0 0px 1000px white inset;
+       
+     }
+     
+     /* Internet Explorer, Edge */
+     input:-ms-autofill {
+         box-shadow: 0 0 0px 1000px white inset;
+         
+     }
+* {
+	font-family: 'SUITE-Regular';
+}
+
+/* input 요소에 대한 호버 상태일 때 포인터 모양 사용 */
+input[type="password"]:hover,
+input[type="email"]:hover,
+input[type="number"]:hover,
+input[type="date"]:hover,
+input[type="time"]:hover,
+input[type="checkbox"]:hover,
+input[type="radio"]:hover,
+input[type="file"]:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+	cursor: pointer;
+}
+
+input[type="text"]:hover {
+	cursor: text;
+}
+
+/* 버튼 요소에 대한 호버 상태일 때 포인터 모양 사용 */
+button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+	cursor: pointer;
+}
+
+body {
+	font-family: 'SUITE-Regular';
+	margin: 0;
+}
+
+/* Chrome, Safari */
+     input:-webkit-autofill {
+         -webkit-box-shadow: 0 0 0px 1000px white inset;
+         box-shadow: 0 0 0px 1000px white inset;
+         -webkit-text-fill-color: black;
+     }
+     
+     /* Firefox */
+     input:-moz-autofill {
+         box-shadow: 0 0 0px 1000px white inset;
+         
+     }
+     
+     /* Internet Explorer, Edge */
+     input:-ms-autofill {
+         box-shadow: 0 0 0px 1000px white inset;
+         
+     }

@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+
+<section layout:fragment="content">
+
+	<head>
+		<link rel="stylesheet" href="/classPage.css" type="text/css" />
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+		<link rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script type="text/javascript"
+			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f8f8e0c17f1a4bbc02713860db202533&libraries=services"></script>
+		<title>ONETWODAY</title>
+	</head>
+
+	<body th:each="list : ${classlist}" class="cal_body">
+		<form name="classPage" action="/regCheck" method="POST" onsubmit="return subgo()">
+			<div class="classPage">
+				<div class="class_part1">
+					<div class="class_part1_1">
+						<br>
+						<div class="top_bar">
+							<div class="class_title" th:text="${list.class_title}"></div>
+							<input type="hidden" id="class_title" name="class_title">
+							<input type="button" onclick="location.href='/category'" value="카테고리 전체목록" class="goCate">
+						</div>
+						<br>
+						<div class="slider">
+							<div th:each="img : ${list.imgList}" class="slide">
+								<img th:if="${img.img_id != 0 && img.img_id != null}"
+									th:src="@{/download/{img_id}(img_id=${img.img_id})}" th:alt="${img.img_name}" />
+
+							</div>
+							<button id="prevBtn">
+								<i class="fa-solid fa-arrow-left"></i>
+							</button>
+							<button id="nextBtn">
+								<i class="fa-solid fa-arrow-right"></i>
+							</button>
+
+							<div class="slider-indicators">
+								<span class="indicator active"></span>
+								<span class="indicator"></span>
+								<span class="indicator"></span>
+								<span class="indicator"></span>
+							</div>
+						</div>
+					</div>
+					<br>
+					<div class="class_part1_2">
+						<div class="point">
+							<div class="bis">
+								<div class="addresss">
+									<i class="fa-solid fa-location-dot"></i>
+									<div class="bis_address1" th:text="${list.bis_address1}"></div>
+									<input type="hidden" id="bis_address1" name="bis_address1">
+								</div>
+								<div class="timess">
+									<i class="fa-regular fa-clock"></i>
+									<div class="class_time" th:text="${list.class_time}+'시간'"></div>
+								</div>
+							</div>
+
+							<div class="points">
+								<div class="heartpoint">
+									<input type="hidden" name="class_id" th:value="${list.class_id}">
+									<input type="checkbox" id="checkbox_${list.class_id}"
+										class="checkbox-input heart-checkbox" name="class_heart"
+										onchange="sendlike(this)">
+									<label for="checkbox_${list.class_id}" class="checkbox-label">
+										<img src="/img/bin_heart.png" alt="Unchecked"
+											class="checkbox-img unchecked-img">
+										<img src="/img/heart.png" alt="Checked" class="checkbox-img checked-img">
+									</label>
+								</div>
+
+								<input type="hidden" id="classId" th:value="${list.class_id}">
+							</div>
+						</div>
+					</div>
+				</div>
+				<br> <br>
+				<div class="class_part2">
+					<div class="introduce" th:each="list : ${classlist}">
+						<div class="text_intro">상세 소개</div>
+						<div>
+							<textarea class="class_detail" th:text="${list.class_intro}" readonly></textarea>
+						</div>
+						<div class="text_intro">사업장 주소</div>
+						<div>
+							<div id="map" class="map"></div>
+						</div>
+						<div class="text_intro">리뷰</div>
+						<div class="review">
+							<div th:each="review : ${reviews}">
+								<div class="review1">
+									<div class="profile_img">
+										<img src="/img/profile.jpg" alt="프로필사진" width="50" height="50">
+									</div>
+									<div class="review_nickname" th:text="${review.user_nickname}"></div>
+									<div class="review_date" th:text="${review.reservation_date}"></div>
+
+									<div class="review_starpoint">
+										<span th:each="star : ${#numbers.sequence(1, review.class_star)}">★</span>
+									</div>
+								</div>
+								<div class="review2">
+									<textarea class="review_content" name="review_content"
+										th:text="${review.review_content}" readonly></textarea>
+								</div>
+								<hr>
+							</div>
+						</div>
+					</div>
+					<br> <br>
+				</div>
+				<div class="class_fixbar">
+					<div class="calender-container">
+						<div name="cal" class="cal">
+							<div class="calendar">
+								<div class="cal_header">
+									<div class="year-month"></div>
+									<div class="nav">
+										<button class="nav-btn go-prev" onclick="prevMonth()">&lt;</button>
+										<button class="nav-btn go-today" onclick="goToday()">Today</button>
+										<button class="nav-btn go-next" onclick="nextMonth()">&gt;</button>
+									</div>
+								</div>
+								<div class="main">
+									<div class="days">
+										<div class="day">일</div>
+										<div class="day">월</div>
+										<div class="day">화</div>
+										<div class="day">수</div>
+										<div class="day">목</div>
+										<div class="day">금</div>
+										<div class="day">토</div>
+									</div>
+									<div class="dates"></div>
+									<br>
+									<div class="choose_time">
+										<div class="text_intro_time">개설된 클래스 시간</div>
+										<br>
+										<div class="choose_time_button"></div>
+									</div>
+									<br>
+									<div class="class_price" th:each="list : ${classlist}">
+										<button type="button" onclick="decreaseCount(event)">-</button>
+										<div id="count">0인</div>
+										<input id="reservation_people" name="reservation_people" type="hidden"
+											value="1">
+										<button type="button" onclick="increaseCount(event)">+</button>
+										<p id="tot_price" name="">
+											총 금액 : <span id="totalPrice" name="reservation_id"
+												th:text="${list.class_cost}"></span>원
+										</p>
+										<input id="reservation_price" name="reservation_price" type="hidden">
+										<input id="reservation_date" name="reservation_date" type="hidden">
+										<input id="reservation_start" name="reservation_start" type="hidden">
+										<div id="reservCount" style="display: none;"></div> <!-- 추가된 부분 -->
+									</div>
+									<br>
+									<button type="submit" class="reserv_button">예약하기</button>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 메시지 표시 -->
+			<p th:text="${message}" id="serverMessage" style="display: none;"></p>
+
+		</form>
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			document.addEventListener("DOMContentLoaded", function () {
+				var messageElement = document.getElementById('serverMessage');
+				var message = messageElement.innerText;
+
+				if (message) {
+					alert(message);
+					// 성공 메시지인지 확인 (예: 성공 메시지에 "성공"이라는 단어가 포함되어 있는 경우)
+
+				}
+			});
+			/*]]>*/
+		</script>
+		<script th:inline="javascript">
+			document.addEventListener("DOMContentLoaded", function () {
+				$.ajax({
+					type: "get",
+					url: "/classPage/getLikes",
+					success: function (data) {
+						for (const [classId, isLiked] of Object.entries(data)) {
+							const checkbox = document.querySelector(`input[name="class_id"][value="${classId}"]`);
+							if (checkbox) {
+								checkbox.checked = isLiked;
+								const heartLabel = checkbox.closest('.heartpoint').querySelector('.checkbox-label');
+								const checkedImg = heartLabel.querySelector('.checked-img');
+								const uncheckedImg = heartLabel.querySelector('.unchecked-img');
+
+								if (isLiked) {
+									checkedImg.style.opacity = 1;
+									uncheckedImg.style.opacity = 0;
+								} else {
+									checkedImg.style.opacity = 0;
+									uncheckedImg.style.opacity = 1;
+								}
+							}
+						}
+					},
+					error: function () {
+						console.log("찜 상태를 가져오는 동안 오류 발생");
+					}
+				});
+			});
+
+			function sendlike(chkbx) {
+				const classId = $(chkbx).closest('.heartpoint').find('input[name="class_id"]').val();
+				$.ajax({
+					type: "get",
+					async: false,
+					url: "/classPage/updateLike",
+					data: {
+						classId: classId,
+						chkbx: chkbx.checked
+					},
+					success: function (data) {
+						const heartLabel = chkbx.closest('.heartpoint').querySelector('.checkbox-label');
+						const checkedImg = heartLabel.querySelector('.checked-img');
+						const uncheckedImg = heartLabel.querySelector('.unchecked-img');
+
+						if (data.isLoggedIn) {
+							if (data.isLiked) {
+								checkedImg.style.opacity = 1;
+								uncheckedImg.style.opacity = 0;
+								alert("찜이 완료되었습니다. 위시리스트에서 확인 가능합니다.");
+							} else {
+								checkedImg.style.opacity = 0;
+								uncheckedImg.style.opacity = 1;
+								alert("찜이 해제되었습니다.");
+							}
+						} else {
+							alert("로그인 해주세요");
+							chkbx.checked = !chkbx.checked;
+						}
+					},
+					error: function () {
+						alert("오류가 발생했습니다. 다시 시도해주세요.");
+						chkbx.checked = !chkbx.checked;
+					}
+				});
+			}
+
+			document.addEventListener('DOMContentLoaded', function () {
+				var imgElements = document.querySelectorAll('img');
+				imgElements.forEach(function (img) {
+					var src = img.getAttribute('src');
+					img.setAttribute('src', src + '?timestamp=' + new Date().getTime());
+				});
+			});
+
+
+			$(document).ready(function () {
+				// .class_detail 요소를 가져옵니다.
+				var classDetail = $('.class_detail');
+
+				// .class_detail 요소의 scrollHeight가 min-height보다 작으면 높이를 변경합니다.
+				classDetail.each(function () {
+					var contentHeight = $(this)[0].scrollHeight;
+					var minHeight = 200; // 최소 높이
+					var maxHeight = 500; // 최대 높이
+
+					// 높이를 내용의 높이에 맞게 조정하되, min-height와 max-height 사이로 제한합니다.
+					if (contentHeight < minHeight) {
+						$(this).css('height', minHeight + 'px');
+					} else if (contentHeight > maxHeight) {
+						$(this).css('height', maxHeight + 'px');
+					} else {
+						$(this).css('height', contentHeight + 'px');
+					}
+				});
+			});
+
+			let reservCount = 0; // 예약된 인원 수
+			const maxReservations = 4; // 최대 예약 가능 인원
+
+			function selectCard(element) {
+				if (element.classList.contains('selected')) {
+					element.classList.remove('selected');
+				} else {
+					var cards = document.getElementsByClassName('time');
+					for (var i = 0; i < cards.length; i++) {
+						cards[i].classList.remove('selected');
+					}
+					element.classList.add('selected');
+				}
+			}
+
+			let currentSlide = 0;
+			const slides = document.querySelectorAll('.slide');
+			const slideCount = slides.length;
+			const nextBtn = document.getElementById('nextBtn');
+			const prevBtn = document.getElementById('prevBtn');
+			const indicators = document.querySelectorAll('.indicator');
+
+			function showSlide(n) {
+				slides.forEach(slide => slide.style.display = 'none');
+				indicators.forEach(indicator => indicator.classList.remove('active'));
+				slides[n].style.display = 'block';
+				indicators[n].classList.add('active');
+			}
+
+			function nextSlide() {
+				currentSlide = (currentSlide + 1) % slideCount;
+				event.preventDefault()
+				showSlide(currentSlide);
+			}
+
+			function prevSlide() {
+				currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+				event.preventDefault()
+				showSlide(currentSlide);
+			}
+
+			// 이미지가 하나일 때 네비게이션 버튼과 인디케이터 숨김
+			if (slideCount === 1) {
+				nextBtn.style.display = 'none';
+				prevBtn.style.display = 'none';
+				indicators.forEach(indicator => indicator.style.display = 'none');
+			} else {
+				nextBtn.addEventListener('click', nextSlide);
+				prevBtn.addEventListener('click', prevSlide);
+
+				indicators.forEach((indicator, index) => {
+					indicator.addEventListener('click', () => {
+						showSlide(index);
+					});
+				});
+			}
+
+			showSlide(currentSlide);
+
+			var personCount = 0;
+			var pricePerPerson = parseFloat(document.getElementById("totalPrice").textContent);
+
+			function decreaseCount(event) {
+				event.preventDefault();
+				if (personCount > 1) {
+					personCount--;
+					updateDisplay();
+					console.log(document.getElementById('reservation_people').value);
+				}
+			}
+
+			function increaseCount(event) {
+				event.preventDefault();
+				if (reservCount < maxReservations) {
+					personCount++;
+					updateDisplay();
+					console.log(document.getElementById('reservation_people').value);
+				} else {
+					alert(`예약 가능한 최대 인원은 ${maxReservations}명입니다.`);
+				}
+			}
+
+			function updateDisplay() {
+				var personCountText = personCount + "인";
+				document.getElementById("count").textContent = personCountText;
+				document.getElementById("reservation_people").value = personCount;
+
+				var totalPrice = personCount * pricePerPerson;
+				document.getElementById("totalPrice").textContent = totalPrice.toLocaleString('ko-KR'); // 금액을 3자리마다 쉼표 추가
+				document.getElementById("reservation_price").value = totalPrice;
+			}
+
+			let date = new Date();
+
+			const renderCalendar = () => {
+				const viewYear = date.getFullYear();
+				const viewMonth = date.getMonth();
+
+				document.querySelector('.year-month').textContent = `${viewYear}년 ${viewMonth + 1}월`;
+
+				const prevLast = new Date(viewYear, viewMonth, 0);
+				const thisLast = new Date(viewYear, viewMonth + 1, 0);
+
+				const PLDate = prevLast.getDate();
+				const PLDay = prevLast.getDay();
+
+				const TLDate = thisLast.getDate();
+				const TLDay = thisLast.getDay();
+
+				const prevDates = [];
+				const thisDates = [...Array(TLDate + 1).keys()].slice(1);
+				const nextDates = [];
+
+				if (PLDay !== 6) {
+					for (let i = 0; i < PLDay + 1; i++) {
+						prevDates.unshift(PLDate - i);
+					}
+				}
+
+				for (let i = 1; i < 7 - TLDay; i++) {
+					nextDates.push(i);
+				}
+
+				const dates = prevDates.concat(thisDates, nextDates);
+				const firstDateIndex = dates.indexOf(1);
+				const lastDateIndex = dates.lastIndexOf(TLDate);
+
+				const today = new Date();
+				dates.forEach((date, i) => {
+					let condition = i >= firstDateIndex && i < lastDateIndex + 1 ? 'this' : 'other';
+					let className = 'date';
+					if (viewYear < today.getFullYear() ||
+						(viewYear === today.getFullYear() && viewMonth < today.getMonth()) ||
+						(viewYear === today.getFullYear() && viewMonth === today.getMonth() && date < today.getDate())) {
+						className += ' disabled';
+					}
+					dates[i] = `<div class="${className}"><span class="${condition}">${date}</span></div>`;
+				});
+
+				document.querySelector('.dates').innerHTML = dates.join('');
+
+				if (viewMonth === today.getMonth() && viewYear === today.getFullYear()) {
+					document.querySelectorAll('.this').forEach(dateElement => {
+						if (+dateElement.innerText === today.getDate()) {
+							dateElement.classList.add('today');
+						}
+					});
+				}
+
+				document.querySelectorAll('.date:not(.disabled)').forEach(dateElement => {
+					dateElement.addEventListener('click', function () {
+						if (this.classList.contains('date-clicked')) {
+							this.classList.remove('date-clicked');
+							document.querySelector('.choose_time').style.display = 'none';
+						} else {
+							document.querySelectorAll('.date-clicked').forEach(clickedElement => {
+								clickedElement.classList.remove('date-clicked');
+							});
+							this.classList.add('date-clicked');
+							document.querySelector('.choose_time').style.display = 'block';
+						}
+					});
+				});
+
+				createTimeButtons();
+			};
+
+			const createTimeButtons = () => {
+				const url = window.location.pathname;
+				const classIdMatch = url.match(/classPage\/(\d+)/);
+
+				if (classIdMatch) {
+					const id = classIdMatch[1];
+
+					const timeContainer = document.querySelector('.choose_time_button');
+					timeContainer.innerHTML = '';
+
+					$.ajax({
+						url: `/api/classInfo/${id}`,
+						type: 'GET',
+						dataType: 'json',
+						success: function (data) {
+							console.log(data);
+							let start = parseInt(data.data.class_start);
+							let finish = parseInt(data.data.class_finish);
+							let time = parseInt(data.data.class_time);
+							let max = parseInt(data.data.class_maxpeople);
+							let reserv = parseInt(data.data.reservation_people) || 0; // 수강인원 (NaN 방지)
+
+							for (let i = start; i < finish; i += time) {
+								if (i + time > finish) {
+									break; // 종료 시간을 넘기면 버튼을 생성하지 않음
+								}
+
+								const timeSlot = document.createElement('div');
+								timeSlot.className = 'time1';
+
+								const timeButton = document.createElement('input');
+								timeButton.type = 'button';
+								timeButton.className = 'time';
+								timeButton.value = `${i}:00 ~ ${(i + time <= finish) ? i + time : finish}:00`;
+								timeButton.dataset.reserv = reserv;
+								timeButton.dataset.max = max;
+
+								const extraHeadCnt = document.createElement('div');
+								extraHeadCnt.className = 'extraheadcnt';
+								extraHeadCnt.textContent = `${reserv}/${max}`;
+
+								timeSlot.appendChild(timeButton);
+								timeSlot.appendChild(extraHeadCnt);
+
+								timeContainer.appendChild(timeSlot);
+							}
+							addTimeButtonClickEvent();
+						},
+						error: function (request, status, error) {
+							console.log("code:" + request.status + "\nmessage:" + request.responseText + "\nerror:" + error);
+						}
+					});
+				} else {
+					console.error("유효한 class_id를 URL에서 찾을 수 없습니다.");
+				}
+			};
+
+			const addTimeButtonClickEvent = () => {
+				document.querySelectorAll('.time').forEach(timeButton => {
+					timeButton.addEventListener('click', function () {
+						const max = parseInt(this.dataset.max);
+						const reserv = parseInt(this.dataset.reserv);
+
+						if (reserv >= max) {
+							alert(`예약 가능한 최대 인원은 ${max}명입니다.`);
+							return;
+						}
+
+						if (this.classList.contains('selected')) {
+							this.classList.remove('selected');
+							reservCount--;
+						} else {
+							document.querySelectorAll('.time').forEach(button => {
+								button.classList.remove('selected');
+							});
+							this.classList.add('selected');
+							reservCount++;
+						}
+						updateReservationCount();
+					});
+				});
+			};
+
+
+			function updateReservationCount() {
+				const reservCountElement = document.getElementById('reservCount');
+				if (reservCountElement) {
+					reservCountElement.textContent = `${reservCount}/${maxReservations}`;
+					console.log(`예약 인원수 업데이트: ${reservCount}/${maxReservations}`); // 추가된 부분
+				} else {
+					console.error('id가 "reservCount"인 요소를 찾을 수 없습니다.');
+				}
+			}
+
+
+
+			const prevMonth = () => {
+				date.setMonth(date.getMonth() - 1);
+				renderCalendar();
+				event.preventDefault();
+			};
+
+			const nextMonth = () => {
+				date.setMonth(date.getMonth() + 1);
+				renderCalendar();
+				event.preventDefault();
+			};
+
+			const goToday = () => {
+				date = new Date();
+				renderCalendar();
+				event.preventDefault();
+			};
+
+			renderCalendar();
+
+			/*<![CDATA[*/
+			var bisAddress = /*[[${classlist.bis_address1}+${classlist.bis_address2}+${classlist.bis_address3}]]*/ 'defaultAddress';
+			var className = /*[[${classlist.class_name}]]*/ 'defaultName';
+
+			console.log(bisAddress);
+			console.log(className);
+
+			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+				mapOption = {
+					center: new kakao.maps.LatLng(36.3510333991808, 127.3797282718), // 지도의 중심좌표
+					level: 3 // 지도의 확대 레벨
+				};
+
+			// 지도를 생성합니다    
+			var map = new kakao.maps.Map(mapContainer, mapOption);
+			var addressDiv = document.createElement('div');
+
+			// 새로운 div에 내용을 추가합니다. bisAddress 변수의 값이 들어갑니다.
+			addressDiv.innerHTML = '<div class="myaddress">' + className + ': ' + bisAddress + '</div>';
+
+			// mapContainer(div#map)의 부모 요소에 새로운 div를 mapContainer 다음에 삽입합니다.
+			mapContainer.parentNode.insertBefore(addressDiv, mapContainer.nextSibling);
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new kakao.maps.services.Geocoder();
+
+			// 주소로 좌표를 검색합니다
+			geocoder.addressSearch(bisAddress, function (result, status) {
+
+				// 정상적으로 검색이 완료됐으면 
+				if (status === kakao.maps.services.Status.OK) {
+
+					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+					// 결과값으로 받은 위치를 마커로 표시합니다
+					var marker = new kakao.maps.Marker({
+						map: map,
+						position: coords
+					});
+
+					// 인포윈도우로 장소에 대한 설명을 표시합니다
+					var infowindow = new kakao.maps.InfoWindow({
+						content: '<div style="width:150px;text-align:center;padding:6px 0;">' + className + '</div>'
+					});
+					infowindow.open(map, marker);
+
+					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+					map.setCenter(coords);
+				}
+			});
+			/*]]>*/
+
+			function subgo() {
+				const selectedClassId = document.getElementById('classId').value;
+				const selectedAddress1 = document.querySelector('.bis_address1').textContent;
+				const selectedTitle = document.querySelector('.class_title').textContent;
+				const selectedTimeElement = document.querySelector('.time.selected');
+
+				if (!selectedTimeElement) {
+					alert("예약할 시간을 선택해주세요.");
+					return false;
+				}
+				if (personCount === 0) {
+					alert("예약할 인원 수를 선택해주세요.");
+					return false;
+				}
+
+
+				const selectedTime = selectedTimeElement.value;
+				let reserv = parseInt(selectedTimeElement.dataset.reserv);
+				const max = parseInt(selectedTimeElement.dataset.max);
+				const selectedDate = document.querySelector('.year-month').textContent + document.querySelector('.date-clicked span').textContent.trim() + "일";
+
+				// 현재 예약된 인원에 추가로 예약할 인원이 max를 초과하는지 확인
+				if ((reserv + personCount) > max) {
+					alert(`예약 가능한 최대 인원은 ${max - reserv}명입니다. 현재 예약 인원: `);
+					return false;
+				}
+
+				document.getElementById('reservation_start').value = selectedTime;
+				document.getElementById('reservation_date').value = selectedDate;
+				document.getElementById('class_title').value = selectedTitle;
+				document.getElementById('bis_address1').value = selectedAddress1;
+				document.getElementById('class_id').value = selectedClassId;
+
+				fetch('/save-reservation/' + selectedClassId, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						reservation_start: selectedTime,
+						reservation_date: selectedDate,
+						class_title: selectedTitle,
+						bis_address1: selectedAddress1,
+						class_id: selectedClassId
+					}),
+				})
+					.then(response => {
+						if (!response.ok) {
+							throw new Error('Network response was not ok');
+						}
+						return response.json();
+					})
+					.then(data => {
+						if (data.reserved) {
+							alert(message);
+
+						} else {
+							console.log(data);
+							// 예약 성공 시 할 작업 추가
+						}
+					})
+					.catch(error => {
+						console.error('Error sending data to server:', error);
+						// 오류 처리
+					});
+
+			}
+
+		</script>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				// 금액에 3자리마다 쉼표 추가
+				var totalPriceElement = document.getElementById("totalPrice");
+				if (totalPriceElement) {
+					var price = parseFloat(totalPriceElement.textContent);
+					if (!isNaN(price)) {
+						totalPriceElement.textContent = price.toLocaleString('ko-KR');
+					}
+				}
+			});
+		</script>
+	</body>
+</section>
+
+</html>

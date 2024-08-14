@@ -1,0 +1,103 @@
+@charset "UTF-8";
+
+
+body {
+	display: flex;
+	justify-content: center;
+}
+
+.join_menu {
+	border: 3px solid #d9d9d9;
+	width: 1200px;
+	height: 800px;
+	margin: 5% 5%;
+	position: relative;
+}
+
+.loginimg {
+	position: absolute;
+	top: -30px;
+	left: -20px;
+	z-index: 10;
+}
+
+.join_menu2 {
+	display: flex;
+	justify-content: center;
+	margin-top: 2%;
+}
+
+h1 {
+	text-align: center;
+	margin-top: 60px;
+}
+
+h3 {
+	text-align: center;
+	font-weight: lighter;
+	font-size: 15px;
+	margin-top: 30px;
+}
+
+.join_user,
+.join_bis {
+	text-align: center;
+	box-shadow: 5px 5px 5px #d9d9d9;
+	width: 400px;
+	height: 500px;
+	padding: 1em;
+}
+
+.join_bis {
+	margin-left: 80px;
+}
+
+.user_logo,
+.bis_logo {
+	margin-top: 30px;
+}
+
+.type,
+.intro,
+.join_user_button,
+.join_bis_button {
+	margin-top: 18px;
+}
+
+.type {
+	font-weight: 500;
+	font-size: 25px;
+}
+
+.user_logo {
+	margin-left: 10%;
+}
+
+.bis_logo {
+	margin-left: 14%;
+}
+
+.intro {
+	text-align: left;
+	margin-left: 20%;
+	font-size: 15px;
+}
+
+.join_user_button,
+.join_bis_button {
+	background-color: #BFBFBF;
+	border: none;
+	border-radius: 10px;
+	width: 100px;
+	height: 30px;
+	box-shadow: 2px 2px 2px gray;
+}
+
+.line {
+	position: absolute;
+	left: 50%;
+	top: 220px;
+	bottom: 60px;
+	border-left: solid #d9d9d9;
+	border-left-width: 2.5px;
+}

@@ -1,0 +1,708 @@
+@charset "UTF-8";
+
+	* {
+				font-family: 'SUITE-Regular';
+			}
+
+			.cal {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				/* min-height: 100vh; */
+			}
+
+			.calendar-container {
+				position: relative;
+			}
+
+			.calendar {
+				margin: 50px;
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 10;
+			}
+
+			.cal_header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+
+			.year-month {
+				font-size: 35px;
+			}
+
+			.nav {
+				display: flex;
+				border: 1.5px solid rgb(250, 189, 163);
+				;
+				border-radius: 5px;
+			}
+
+			.nav-btn {
+				width: 28px;
+				height: 30px;
+				border: none;
+				font-size: 16px;
+				line-height: 34px;
+				background-color: transparent;
+				cursor: pointer;
+
+			}
+
+			.go-today {
+				width: 75px;
+				border-left: 1.5px solid rgb(250, 189, 163);
+				border-right: 1.5px solid rgb(250, 189, 163);
+				;
+			}
+
+			.days {
+				display: flex;
+				margin: 25px 0 10px;
+			}
+
+			.day {
+				width: calc(100%/ 7);
+				text-align: center;
+			}
+
+			.dates {
+				display: flex;
+				flex-wrap: wrap;
+				border-top: 1.5px solid rgb(245, 177, 154);
+				border-right: 1.5px solid rgb(245, 177, 154);
+			}
+
+			.date {
+				width: calc(100%/ 7 - 31px);
+				padding: 15px;
+				text-align: center;
+				border-bottom: 1.5px solid rgb(245, 177, 154);
+				border-left: 1.5px solid rgb(245, 177, 154);
+			}
+
+			.date:hover {
+				cursor: pointer;
+			}
+
+			.day:nth-child(7n+1),
+			.date:nth-child(7n+1) {
+				color: #D13E3E;
+			}
+
+			.day:nth-child(7n),
+			.date:nth-child(7n) {
+				color: #396EE2;
+			}
+
+			.other {
+				opacity: 0.3;
+			}
+
+			.today {
+				position: relative;
+				color: #FFFFFF;
+			}
+
+			.today::before {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				z-index: -1;
+				width: 30px;
+				height: 30px;
+				display: block;
+				background-color: rgb(250, 122, 125);
+				border-radius: 50%;
+				content: '';
+			}
+
+			.disabled {
+				color: #ccc;
+				pointer-events: none;
+			}
+
+			.date-clicked {
+				background-color: rgb(245, 177, 154);
+				/* 클릭된 날짜의 배경색을 노란색으로 설정 */
+			}
+
+			.choose_time {
+				display: none;
+			}
+
+			h3 {
+				text-align: center;
+				margin-top: 150px;
+				margin-bottom: 50px;
+			}
+
+			.classPage {
+				float: left;
+				margin-left: 20%;
+			}
+
+			.class_part1 {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+			}
+
+			.class_part1_1 {
+				display: flex;
+				justify-content: left;
+				flex-direction: column;
+				width: 750px;
+				height: 700px;
+			}
+
+			.class_title {
+				margin-top: 40px;
+				margin-bottom: 17px;
+				width: 650px;
+				min-height: 70px;
+				/* 최소 높이 설정 */
+				font-size: 24px;
+				font-weight: bold;
+				border-left: rgb(250, 189, 163) 10px solid;
+				padding: 0.5em 0.5em;
+				background-color: rgb(255, 255, 255);
+				color: rgb(148, 84, 63);
+				display: inline-block;
+				/* 콘텐츠에 맞춰 높이 조정 */
+				box-sizing: border-box;
+				/* 패딩 포함하여 크기 계산 */
+			}
+
+			.slider {
+				border: 2px solid #D8C8BD;
+				margin-top: 20px;
+				margin-left: 10px;
+				position: relative;
+				max-width: 750px;
+				/* 이미지의 최대 너비에 맞게 조정하세요. */
+				margin: auto;
+				/* Flexbox를 사용하여 자식 요소들을 중앙 정렬합니다. */
+				flex-direction: center;
+				/* 자식 요소들을 세로로 배치합니다. */
+				/* 가로 중앙 정렬 */
+				border-radius: 2%;
+				height: 500px;
+			}
+
+			.slide {
+				display: none;
+				/* 기본적으로 슬라이드는 숨겨져 있습니다. */
+				width: 100%;
+				/* 슬라이드 너비를 부모 요소에 맞춥니다. */
+				flex-shrink: 0;
+				/* 이미지 크기에 따라 슬라이드 크기가 줄어들지 않도록 합니다. */
+			}
+
+			.slide img {
+				width: 740px;
+				/* 이미지의 너비를 600px로 고정 */
+				height: 500px;
+				/* 이미지의 높이를 400px로 고정 */
+				object-fit: contain;
+				/* 이미지 비율을 유지하면서 주어진 너비와 높이에 맞게 조정 */
+				border-radius: 2%;
+			}
+
+			.indicator {
+				cursor: pointer;
+				height: 15px;
+				width: 15px;
+				margin: 0 2px;
+				background-color: #ffebdf;
+				border-radius: 50%;
+				display: inline-block;
+				transition: background-color 0.6s ease;
+			}
+
+			.active,
+			.indicator:hover {
+				background-color: #FFBE98;
+			}
+
+			#prevBtn,
+			#nextBtn {
+				cursor: pointer;
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				width: auto;
+				padding: 16px;
+				color: white;
+				font-weight: bold;
+				font-size: 18px;
+				transition: 0.6s ease;
+				user-select: none;
+				background-color: rgba(0, 0, 0, 0.1);
+				border: none;
+			}
+
+			#nextBtn {
+				right: 10px;
+				border: 1px solid FFBE98;
+				/* 오른쪽 버튼 위치 조정 */
+			}
+
+			#prevBtn {
+				left: 10px;
+				/* 왼쪽 버튼 위치 조정 */
+			}
+
+			.slider-indicators {
+				display: flex;
+				/* 인디케이터들을 가로로 나열합니다. */
+				position: absolute;
+				justify-content: center;
+				/* 중앙 정렬 */
+				width: 100%;
+				/* 부모 요소 너비에 맞춥니다. */
+				bottom: 5%;
+			}
+
+			.class_part1_2 {
+				display: flex;
+				justify-content: center;
+				flex-direction: column;
+				width: 750px;
+				height: 80px;
+				border-radius: 5px;
+			}
+
+			.point {
+				display: flex;
+				flex-wrap: column;
+			}
+
+			.heart_button {
+				border: 0;
+				background-color: transparent;
+			}
+
+			.heart_img {
+				width: 55px;
+				height: 55px;
+			}
+
+			.star_img {
+				width: 55px;
+				height: 55px;
+				margin-left: 20px;
+			}
+
+			.time_area {
+				margin-top: 10px;
+				margin-left: 100px;
+				margin-bottom: 30px;
+			}
+
+			.class_fixbar {
+				position: absolute;
+				top: 15%;
+				right: 5%;
+				border: double rgb(250, 189, 163);
+				width: 500px;
+				height: 850px;
+				margin-top: 50px;
+				margin-left: 50px;
+				display: block;
+				box-shadow: 5px 5px 5px 5px #D9D9D9, -5px -5px 5px 5px #D9D9D9;
+				background-color: white;
+				box-sizing: content-box;
+				border-radius: 2%;
+			}
+
+			.choose_time_button {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				/* 7개의 열 */
+				grid-gap: 5px;
+				border-radius: 10px;
+			}
+
+			.time {
+				width: 127px;
+				height: 40px;
+				text-align: center;
+				line-height: 35px;
+				background-color: rgb(252, 209, 184);
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+				transition: transform 0.3s ease-in-out;
+				border: none;
+				font-size: 15px;
+				border-radius: 10px;
+			}
+
+			.time1 {
+				display: flex;
+				flex-direction: column;
+			}
+
+			.extraheadcnt {
+				margin-top: 10px;
+				text-align: center;
+				display: none;
+			}
+
+			.time:hover {
+				transform: scale(1.05);
+				background-color: #ffffff;
+			}
+
+			.time:hover+.extraheadcnt {
+				display: block;
+			}
+
+			.selected {
+				background-color: WHITE;
+				border: solid #FFBE98;
+				box-shadow: 2px 2px 2px #D9d9d9;
+				/* 선택된 카드를 강조 */
+			}
+
+			.classPage .class_part2 {
+				background-color: #D9D9D9;
+				width: 750px;
+				margin-bottom: 100px;
+				border-radius: 10px;
+				position: relative;
+			}
+
+			.introduce {
+				display: flex;
+				flex-direction: column;
+				border-radius: 10px;
+			}
+
+			.text_intro {
+				margin-top: 50px;
+				margin-left: 20px;
+				background-color: white;
+				width: 180px;
+				height: 40px;
+				text-align: center;
+				line-height: 40px;
+				font-size: 20px;
+				font-weight: bold;
+				border-radius: 8px;
+				border-radius: 10px;
+			}
+
+			.text_intro_time {
+				width: 200px;
+				height: 30px;
+				text-align: center;
+				line-height: 40px;
+				font-size: 20px;
+				margin-left: -20px;
+			}
+
+			.text_intro_price {
+				margin-top: 30px;
+				width: 200px;
+				height: 40px;
+				line-height: 40px;
+				font-size: 20px;
+				border-radius: 2%;
+			}
+
+			.class_price {
+				display: flex;
+				flex-wrap: wrap;
+			}
+
+			.class_price button {
+				width: 20px;
+				height: 20px;
+				margin-top: 15px;
+				margin-inline: 40px;
+			}
+
+			#count {
+				margin-top: 15px;
+			}
+
+			#tot_price {
+				margin-left: 40px
+			}
+
+			.price_person {
+				margin-left: 360px;
+				margin-bottom: 10px;
+			}
+
+			.reserv_button {
+				width: 400px;
+				height: 50px;
+				background: rgb(255, 255, 255);
+				color: #FFBE98;
+				border-color: rgb(255, 217, 193);
+				font-size: 18px;
+				border-radius: 10px;
+			}
+
+			.reserv_button:hover {
+				background-color: #FFBE98;
+				color: white;
+				border-radius: 10px;
+			}
+
+			.class_detail,
+			.bis_addr,
+			.bis_intro,
+			.review {
+				margin-left: 45px;
+				margin-top: 20px;
+				width: 650px;
+				font-size: 18px;
+				border-radius: 10px;
+			}
+
+			.class_detail {
+				min-height: 200px;
+				max-height: 500px;
+				/* 최대 높이 설정 */
+				overflow-y: auto;
+				/* 스크롤 활성화 */
+				box-sizing: border-box;
+				/* 패딩과 테두리를 포함한 전체 크기 계산 */
+				border: 1px solid #ccc;
+				/* 테두리 예시 */
+				padding: 10px;
+				/* 패딩 예시 */
+			}
+
+			.bis_addr {
+				height: 300px;
+			}
+
+			.bis_intro {
+				height: 300px;
+			}
+
+			.bisintro_img {
+				width: 100px;
+			}
+
+
+
+			.person_img {
+				margin-top: 20px;
+				margin-left: 20px;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+
+
+
+			.checkbox-input {
+				display: none;
+			}
+
+			.checkbox-label {
+				display: inline-block;
+				position: relative;
+				cursor: pointer;
+			}
+
+			.checkbox-label {
+				position: relative;
+				display: inline-block;
+				width: 55px;
+				height: 55px;
+			}
+
+			.checkbox-label .checkbox-img {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				opacity: 0;
+				transition: opacity 0.3s ease;
+			}
+
+			.checkbox-label .unchecked-img {
+				opacity: 1;
+			}
+
+			.checkbox-input:checked+.checkbox-label .checked-img {
+				opacity: 1;
+			}
+
+			.checkbox-input:checked+.checkbox-label .unchecked-img {
+				opacity: 0;
+			}
+
+			textarea {
+				border: none;
+				resize: none;
+			}
+
+
+			.profile_img {
+				margin: 20px 20px 0px 20px;
+			}
+
+			.profile_img img {
+				border-radius: 50%;
+			}
+
+			.review_starpoint input[type=radio] {
+				display: none;
+			}
+
+			hr {
+				margin-left: 20px;
+				margin-right: 20px;
+			}
+
+			.myaddress {
+				background-color: white;
+				margin-top: 10px;
+				margin-left: 45px;
+				width: 635px;
+				height: 30px;
+				font-size: 18px;
+				padding-left: 15px;
+				border-radius: 10px;
+			}
+
+			.map {
+				margin-left: 45px;
+				margin-top: 20px;
+				width: 650px;
+				height: 350px;
+				border-radius: 10px;
+			}
+
+			.top_bar {
+				display: flex;
+				flex-direction: row;
+			}
+
+			.goCate {
+				width: 120px;
+				height: 30px;
+				margin-left: 20px;
+				margin-top: 8%;
+				background-color: rgb(250, 189, 163);
+				color: brown;
+				border-radius: 5px;
+				border: none;
+			}
+
+			.goCate:hover {
+				font-weight: 500;
+			}
+
+			.bis {
+				display: flex;
+				flex-direction: wrap;
+				width: 500px;
+				margin-top: 20px;
+				margin-left: 20px;
+			}
+
+			.addresss,
+			.timess {
+				display: flex;
+				flex-direction: wrap;
+				margin-left: 40px;
+			}
+
+			.bis_address1,
+			.class_time {
+				margin-left: 10px;
+			}
+
+			.points {
+				display: flex;
+				flex-direction: wrap;
+				margin-left: 150px;
+			}
+
+			textarea {
+				padding: 10px;
+				/* 내부 여백 설정 */
+				box-sizing: border-box;
+				/* 패딩 포함한 전체 크기 조정 */
+				line-height: 1.5;
+				/* 줄 간격 설정 */
+				white-space: pre-wrap;
+				/* 공백 및 줄바꿈 유지 */
+				text-indent: 20px;
+			}
+
+			textarea:focus {
+				outline: none;
+				box-shadow: none;
+			}
+
+			.review {
+				height: 350px;
+				background-color: white;
+				overflow: auto;
+			}
+
+			.review1,
+			.review2 {
+				display: flex;
+				flex-wrap: wrap;
+			}
+
+			.review-content {
+				background-color: #ffffff;
+				margin-top: 20px;
+				vertical-align: top;
+				font-size: 15px;
+			}
+
+			.review2 textarea {
+				width: 580px;
+				height: 60px;
+				margin-top: 10px;
+				margin-left: 35px;
+				font-size: 17px;
+			}
+
+			.review_starpoint span {
+				-webkit-text-fill-color: gold;
+				/* Will override color (regardless of order) */
+				-webkit-text-stroke-width: 1.5px;
+				-webkit-text-stroke-color: rgb(64, 0, 64);
+				cursor: pointer;
+				font-size: 25px;
+			}
+
+			.review_date {
+				margin-top: 20px;
+				margin-left: 20px;
+				line-height: 50px;
+				width: 130px;
+			}
+
+			.review_starpoint {
+				margin-top: 20px;
+				margin-left: 70px;
+				line-height: 50px;
+				width: 130px;
+			}
+
+			.review_nickname {
+				margin-top: 20px;
+				margin-left: 20px;
+				line-height: 50px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				width: 100px;
+			}

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+
+<section layout:fragment="content">
+
+	<head>
+		<link rel="stylesheet" href="/userPage.css" type="text/css" />
+	</head>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+	<main>
+		<div class="userPage_menu1" th:each="dto : ${list}">
+			<br> <br>
+			<div class="profile1_img">
+				<img src="img/profile.jpg" alt="프로필사진" width="100" height="100">
+			</div>
+			<br>
+			<div class="user_nickname" th:text="${dto.user_nickname}">user_nickname</div>
+			<br>
+			<div class="user_id1" th:text="${dto.user_email}"></div>
+			<br> <br> <a href="userPage">
+				<div class="profile">프로필</div>
+			</a> <br> <a href="userPage2">
+				<div class="awards">수강내역</div>
+			</a> <br> <a href="userPage3">
+				<div class="reservation">예약내역</div>
+			</a> <br> <a href="userPage4">
+				<div class="interests">관심분야</div>
+			</a> <br> <a href="userPage5">
+				<div class="wishlist">위시리스트</div>
+			</a> <br> <br>
+		</div>
+
+		<form action="/userInfo" method="post">
+			<div class="userPage_main" th:each="dto : ${list}">
+
+				<br><br><br>
+				<div class="correction">
+					<div class="profile2_img">
+						<img src="img/profile.jpg" alt="프로필사진" width="85" height="85">
+					</div>
+					<div class="user_profile">내 프로필</div>
+					<div class="user_id2" th:text="${dto.user_email}"></div>
+					<br> <br>
+
+					<div th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></div> <br> <br>
+					<div class="group">
+						<input type="password" name="currentPassword" placeholder="현재 비밀번호를 입력해주세요">
+						<span class="highlight"></span>
+						<span class="bar"></span> <label>현재 비밀번호</label>
+					</div>
+					<div class="group">
+						<input type="password" name="newPassword" placeholder="새 비밀번호를 입력해주세요">
+						<span class="highlight"></span>
+						<span class="bar"></span> <label>새 비밀번호</label>
+						<br>
+
+						<div th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></div>
+					</div>
+
+					<div class="group">
+						<input type="text" th:value="${dto.user_name}" readonly>
+						<span class="highlight"></span> <span class="bar"></span> <label>이름</label>
+					</div>
+					<div class="group">
+						<input type="text" name="user_nickname" th:value="${dto.user_nickname}">
+						<span class="highlight"></span>
+						<span class="bar"></span> <label>닉네임</label>
+					</div>
+					<div class="group">
+						<input type="text" data-condition="phone-condition" name="user_tel" th:value="${dto.user_tel}" oninput="onlyNumberTel(event)">
+						<span class="highlight"></span>
+						<span class="bar"></span> <label>전화번호</label>
+					</div>
+					<div class="phone-condition condition">
+						<span>'-'을 제외하고 11자리를 입력해주세요</span>
+					</div> <br>
+
+					<div class="group1">
+						<input type="text" id="sample6_postcode" class="smaller_text" name="user_postcode" th:value="${dto.user_postcode}" placeholder=" ">
+						<label for="sample6_postcode" id="postcode-label">우편번호</label>
+						<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="find_addr">
+					</div>
+					<div class="group2">
+						<input type="text" id="sample6_address" class="small_text" name="user_address1" th:value="${dto.user_address1}" placeholder=" ">
+						<label for="sample6_address" id="address-label">주소</label>
+					</div>
+					<div class="group2">
+						<input type="text" id="sample6_detailAddress" class="small_text" name="user_address2" th:value="${dto.user_address2}" placeholder=" ">
+						<label for="sample6_detailAddress" id="detailAddress-label">상세주소</label>
+					</div>
+					<div class="group2">
+						<input type="text" id="sample6_extraAddress" class="small_text" name="user_address3" th:value="${dto.user_address3}" placeholder=" ">
+						<label for="sample6_extraAddress" id="extraAddress-label">참고항목</label>
+					</div>
+
+					<p class="button">
+						<input type="submit" value="수정하기" id="input2"> <input id="input2" type="button" value="취소">
+					</p>
+
+				</div>
+			</div>
+		</form>
+	</main>
+	<br><br><br><br>
+	<!-- 메시지 및 리다이렉트 처리 -->
+	<div th:if="${message != null}" id="alert-box" th:data-message="${message}" th:data-logout="${logout}"></div>
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		document.addEventListener("DOMContentLoaded", function () {
+			var alertBox = document.getElementById("alert-box");
+			if (alertBox) {
+				var message = alertBox.getAttribute("data-message");
+				var logout = alertBox.getAttribute("data-logout") === 'true';
+
+				alert(message);
+
+				if (logout) {
+					window.location.href = "/logout.do"; // 로그아웃 URL로 리다이렉트
+				} else {
+					history.replaceState({}, null, "/userPage"); // URL에서 파라미터 제거
+				}
+			}
+		});
+		/*]]>*/
+
+		function sample6_execDaumPostcode() {
+			new daum.Postcode({
+				oncomplete: function (data) {
+					// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+					// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+					// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+					var addr = ''; // 주소 변수
+					var extraAddr = ''; // 참고항목 변수
+
+					//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+					if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+						addr = data.roadAddress;
+					} else { // 사용자가 지번 주소를 선택했을 경우(J)
+						addr = data.jibunAddress;
+					}
+
+					// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+					if (data.userSelectedType === 'R') {
+						// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+						// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+						if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+							extraAddr += data.bname;
+						}
+						// 건물명이 있고, 공동주택일 경우 추가한다.
+						if (data.buildingName !== '' && data.apartment === 'Y') {
+							extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+						}
+						// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+						if (extraAddr !== '') {
+							extraAddr = ' (' + extraAddr + ')';
+						}
+						// 조합된 참고항목을 해당 필드에 넣는다.
+						document.getElementById("sample6_extraAddress").value = extraAddr;
+
+					} else {
+						document.getElementById("sample6_extraAddress").value = '';
+					}
+
+					// 우편번호와 주소 정보를 해당 필드에 넣는다.
+					document.getElementById('sample6_postcode').value = data.zonecode;
+					document.getElementById("sample6_address").value = addr;
+					// 커서를 상세주소 필드로 이동한다.
+					document.getElementById("sample6_detailAddress").focus();
+
+					// 라벨 숨기기
+					hideLabels();
+				}
+			}).open();
+		}
+
+		function hideLabels() {
+			var inputFields = ["sample6_postcode", "sample6_address", "sample6_detailAddress", "sample6_extraAddress"];
+			inputFields.forEach(function (inputId) {
+				var inputField = document.getElementById(inputId);
+				var label = document.querySelector(`label[for="${inputId}"]`);
+				if (inputField.value !== '') {
+					label.style.display = 'none';
+				} else {
+					label.style.display = 'block';
+				}
+			});
+		}
+
+		function onlyNumberTel(event) {
+			// 숫자만 허용
+			event.target.value = event.target.value.replace(/[^0-9]/g, '');
+
+			// 최대 11자 이상 입력 불가
+			if (event.target.value.length > 11) {
+				event.target.value = event.target.value.slice(0, 11);
+			}
+		}
+	</script>
+
+</section>
+
+</html>

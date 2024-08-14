@@ -1,0 +1,93 @@
+@charset "UTF-8";
+
+      /* main */
+      main {
+         display: flex;
+         justify-content: center;
+         padding-top: 60px;
+      }
+
+      /* userPage 메뉴(프로필, 수강내역 등) 스타일 */
+      .bisPage_menu1 {
+         display: grid;
+         float: left;
+         width: 350px;
+         height: 700px;
+         background-color: none;
+         text-align: center;
+         font-size: 20px;
+         border-radius: 15px;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      a {
+         text-decoration-line: none;
+         color: inherit;
+      }
+
+      /* userPage 프로필 수정 스타일 */
+      .bisPage_main {
+         float: left;
+         width: 900px;
+         height: 900px;
+         margin-left: 80px;
+         background-color: none;
+         text-align: left;
+         margin-top: 28px;
+         justify-content: center;
+      }
+
+      .main_title {
+         margin-top: 30px;
+         font-weight: bold;
+         font-size: 20px;
+      }
+
+      .title_big {
+         display: flex;
+         font-weight: bold;
+         font-size: 21px;
+      }
+
+      /* bisPage 프로필 이미지 처리 스타일 */
+      .bis_img1 img {
+         border-radius: 50%;
+      }
+
+      .bis_img1 {
+         margin-top: -25px;
+      }
+
+      .box p {
+         font-size: 20px;
+      }
+
+      /* bisPage 예약관리 이미지 처리 스타일 */
+      table {
+         border-collapse: collapse;
+         width: 900px;
+         margin: 1rem auto;
+         background-color: white;
+         font-size: 20px;
+      }
+
+      td {
+         padding: 8px;
+         text-align: center;
+      }
+
+      th {
+         padding: 10px;
+         text-align: center;
+         border-bottom: 2px solid #000;
+         color: #000;
+      }
+
+      .a {
+         border-right: 1px solid #ddd;
+         border-left: 1px solid #ddd;
+      }
+      .box img{
+         border-radius: 10px;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+      }

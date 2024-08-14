@@ -1,0 +1,132 @@
+@charset "UTF-8";
+
+/* head 스타일 */
+	.tot_login_interests {
+		text-align: center;
+	}
+
+	.interests_title {
+		font-weight: bold;
+		font-size: 70px;
+	}
+
+	.interests_detail {
+		width: 500px;
+		height: 100px;
+		font-size: 30px;
+		margin: auto;
+	}
+
+	/* body 스타일 */
+	.checkbox-input {
+		display: none;
+	}
+
+	.checkbox-label {
+		display: inline-block;
+		position: relative;
+		cursor: pointer;
+	}
+
+	.checkbox-img {
+		width: 170px;
+		height: 170px;
+		transition: opacity 0.3s ease;
+	}
+
+	.checkbox-input:checked+.checkbox-label .checkbox-img:first-child {
+		opacity: 0;
+	}
+
+	.checkbox-input:checked+.checkbox-label .checkbox-img:last-child {
+		opacity: 1;
+	}
+
+	.checkbox-label .checkbox-img:last-child {
+		position: absolute;
+		top: 0;
+		left: 0;
+		opacity: 0;
+	}
+
+	.tot_box {
+		width: 1400px;
+		height: 1200px;
+		margin: 0 auto;
+		/* 수평 가운데 정렬 */
+	}
+
+	.image-container {
+		width: 840px;
+		/* 원하는 너비 설정 */
+		height: 300px;
+		/* 원하는 높이 설정 */
+		margin: 0 auto;
+		/* 수평 가운데 정렬 */
+	}
+
+	.box {
+		display: grid;
+		float: left;
+		padding: 8px;
+		text-align: center;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+
+	.box p {
+		margin-top: 10px;
+		margin-bottom: 10px;
+		font-size: 40px;
+	}
+
+	/* button 스타일 */
+	#input1,
+	#input2,
+	#input3,
+	#input4,
+	#input5,
+	#input6,
+	#input7,
+	#input8,
+	#input9,
+	#input10,
+	#input11,
+	#input12,
+	#input13,
+	#input14 {
+		width: 170px;
+		height: 33px;
+		border: none;
+		background-color: lightgray;
+		opacity: 0.7;
+		color: black;
+		font-weight: bold;
+		font-size: 18px;
+		border-radius: 20px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+	#submit,
+	#cancellation {
+		width: 120px;
+		height: 38px;
+		border: none;
+		background-color: #E2BFB3;
+		color: white;
+		font-size: 18px;
+		font-weight: bold;
+		border-radius: 20px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+	#submit,
+	#cancellation:hover {
+		background-color: brown;
+	}
+
+	.button {
+		text-align: center;
+	}

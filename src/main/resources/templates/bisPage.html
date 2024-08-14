@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+
+<section layout:fragment="content">
+
+	<head>
+		    <link rel="stylesheet" href="/bisPage.css" type="text/css" />
+	</head>
+
+   <script>
+      function hideLabels() {
+         var inputFields = ["sample6_postcode", "sample6_address",
+            "sample6_detailAddress", "sample6_extraAddress"];
+         inputFields.forEach(function (inputId) {
+            var inputField = document.getElementById(inputId);
+            var label = document.querySelector(`label[for="${inputId}"]`);
+            if (inputField.value !== '') {
+               label.style.display = 'none';
+            } else {
+               label.style.display = 'block';
+            }
+         });
+      }
+
+      function onlyNumberTel(event) {
+         // 숫자만 허용
+         event.target.value = event.target.value.replace(/[^0-9]/g, '');
+
+         // 최대 11자 이상 입력 불가
+         if (event.target.value.length > 11) {
+            event.target.value = event.target.value.slice(0, 11);
+         }
+      }
+   </script>
+
+   <main>
+      <div class="bisPage_menu1" th:each="dto : ${list}">
+         <br>
+         <br>
+         <div class="profile1_img">
+            <img src="img/profile.jpg" alt="프로필사진" width="100" height="100">
+         </div>
+         <br>
+         <div class="bis_nickname" th:text="${dto.user_name}">bis_nickname</div>
+         <br>
+         <div class="bis_id1" th:text="${dto.user_email}">bis_id@onetwoday.com</div>
+         <br><br>
+         <a href="bisPage">
+            <div class="profile">프로필</div>
+         </a>
+         <br>
+         <a href="bisPage2">
+            <div class="reservation_">예약 정보</div>
+         </a>
+         <br>
+         <a href="classEdit">
+            <div class="class_reset">클래스 수정</div>
+         </a>
+         <br><br>
+      </div>
+
+      <form action="/bisInfo" method="post">
+         <div class="bisPage_main" th:each="dto : ${list}">
+            <br> <br><br>
+            <div class="correction">
+               <div class="profile2_img">
+                  <img src="img/profile.jpg" alt="프로필사진" width="85" height="85">
+               </div>
+               <div class="bis_profile">내 프로필</div>
+               <div class="bis_id2" th:text="${dto.user_email}"></div>
+               <br> <br>
+
+               <div th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></div> <br> <br>
+               <div class="group">
+                  <input type="password" name="currentPassword" placeholder="현재 비밀번호를 입력해주세요">
+                  <span class="highlight"></span>
+                  <span class="bar"></span> <label>현재 비밀번호</label>
+               </div>
+               <div class="group">
+                  <input type="password" name="newPassword" placeholder="새 비밀번호를 입력해주세요">
+                  <span class="highlight"></span>
+                  <span class="bar"></span> <label>새 비밀번호</label>
+                  <br>
+
+                  <div th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></div>
+               </div>
+
+               <div class="group">
+                  <input type="text" name="user_name" th:value="${dto.user_name}" readonly>
+                  <span class="highlight"></span> <span class="bar"></span> <label>이름</label>
+               </div>
+               <div class="group">
+                  <input type="text" data-condition="phone-condition" name="user_tel" th:value="${dto.user_tel}"
+                     oninput="onlyNumberTel(event)">
+                  <span class="highlight"></span> <span class="bar"></span> <label>전화번호</label>
+               </div>
+               <p class="button">
+                  <input type="submit" value="수정하기" id="input2"> <input id="input2" type="button" value="취소">
+               </p>
+
+            </div>
+         </div>
+      </form>
+   </main>
+   <br><br><br><br>
+   <!-- 메시지 및 리다이렉트 처리 -->
+   <div th:if="${message != null}" id="alert-box" th:data-message="${message}" th:data-logout="${logout}"></div>
+
+   <script th:inline="javascript">
+      /*<![CDATA[*/
+      document.addEventListener("DOMContentLoaded", function () {
+         var alertBox = document.getElementById("alert-box");
+         if (alertBox) {
+            var message = alertBox.getAttribute("data-message");
+            var logout = alertBox.getAttribute("data-logout") === 'true';
+
+            alert(message);
+
+            if (logout) {
+               window.location.href = "/logout.do"; // 로그아웃 URL로 리다이렉트
+            } else {
+               history.replaceState({}, null, "/userPage"); // URL에서 파라미터 제거
+            }
+         }
+      });
+      /*]]>*/
+   </script>
+
+</section>
+
+</html>

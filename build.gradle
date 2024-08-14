@@ -1,0 +1,61 @@
+plugins {
+   id 'java'
+   id 'war'
+   id 'org.springframework.boot' version '3.2.3'
+   id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.springboot'
+version = '0.0.1-SNAPSHOT'
+
+java {
+   sourceCompatibility = '17'
+}
+
+compileJava {
+   options.compilerArgs << "-parameters"
+}
+
+configurations {
+   compileOnly {
+      extendsFrom annotationProcessor
+   }
+}
+
+repositories {
+   mavenCentral()
+}
+
+dependencies {
+   implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+   implementation 'org.springframework.boot:spring-boot-starter-web'
+   implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+   implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
+   
+   
+   implementation 'org.springframework.boot:spring-boot-starter-security'
+   implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+   
+   implementation 'org.springframework.security:spring-security-oauth2-client'
+   implementation 'org.springframework.security:spring-security-oauth2-jose'
+   implementation 'org.springframework.security:spring-security-oauth2-resource-server'
+   
+   implementation 'org.springframework.boot:spring-boot-starter-mail'
+   
+   implementation 'commons-fileupload:commons-fileupload:1.4'
+   implementation 'commons-io:commons-io:2.11.0'
+
+   compileOnly 'org.projectlombok:lombok'
+   runtimeOnly 'com.mysql:mysql-connector-j'
+   annotationProcessor 'org.projectlombok:lombok'
+   providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+   testImplementation 'org.springframework.boot:spring-boot-starter-test'
+   testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
+   developmentOnly 'org.springframework.boot:spring-boot-devtools'
+   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+}
+
+tasks.named('test') {
+   useJUnitPlatform()
+}

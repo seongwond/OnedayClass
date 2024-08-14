@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="/review.css" type="text/css" />
+	<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<section>
+
+
+
+	<body>
+		<div class="review_write">
+			<div class="class_review">클래스 리뷰쓰기</div>
+			<br>
+
+			<div th:if="${combinedList != null}">
+				<div class="class_i" th:if="${!combinedList.isEmpty()}">
+					<div class="class_title" th:text="${classInfo.class_title}"></div>
+					<br>
+					<div class="class_img" th:each="list : ${combinedList}">
+						<img th:src="@{'/img/' + ${list.img_name}}" alt="클래스이미지">
+					</div>
+					<br>
+					<div class="user_studydate" th:text="${reservation.reservation_date}"></div>
+				</div>
+			</div>
+			<br>
+
+			<form action="/review" method="POST">
+				<div id="imgPreview"></div>
+				<div class="star-tot">
+					<div class="star-rating">
+						<input type="radio" id="5-stars" name="class_star" value="5">
+						<label for="5-stars" class="star pr-4">★</label> <input type="radio" id="4-stars"
+							name="class_star" value="4"> <label for="4-stars" class="star">★</label> <input type="radio"
+							id="3-stars" name="class_star" value="3"> <label for="3-stars" class="star">★</label> <input
+							type="radio" id="2-stars" name="class_star" value="2"> <label for="2-stars"
+							class="star">★</label> <input type="radio" id="1-star" name="class_star" value="1"> <label
+							for="1-star" class="star">★</label>
+					</div>
+				</div>
+				<br>
+				<div>
+					<textarea id="reviewContents" name="review_content"
+						placeholder="좋은 수강평을 남겨주시면 AoooA에게 큰 힘이 됩니다!"></textarea>
+				</div>
+
+				<br>
+				<div class="button">
+					<br>
+					<br>
+					<button id="submit2" type="submit">작성완료</button>
+					<button id="submit2" type="button" onclick="closePopup()">취소</button>
+				</div>
+			</form>
+		</div>
+
+		<!-- 메시지 표시 -->
+		<p th:text="${message}" id="serverMessage" style="display: none;"></p>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				var messageElement = document.getElementById('serverMessage');
+				var message = messageElement.innerText;
+				if (message) {
+					alert(message);
+					window.close();
+				}
+			});
+			
+			function closePopup(){
+				window.close();
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+
+<section layout:fragment="content">
+
+	<head>
+		<link rel="stylesheet" href="/userPage4.css" type="text/css" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	</head>
+
+	<main>
+		<div class="userPage_menu1" th:each="dto : ${list}">
+			<br> <br>
+			<div class="profile1_img">
+				<img src="img/profile.jpg" alt="프로필사진" width="100" height="100">
+			</div>
+			<br>
+			<div class="user_nickname" th:text="${dto.user_nickname}">user_nickname</div>
+			<br>
+			<div class="user_id1" th:text="${dto.user_email}"></div>
+			<br> <br> <a href="userPage">
+				<div class="profile">프로필</div>
+			</a> <br> <a href="userPage2">
+				<div class="awards">수강내역</div>
+			</a> <br> <a href="userPage3">
+				<div class="reservation">예약내역</div>
+			</a> <br> <a href="userPage4">
+				<div class="interests">관심분야</div>
+			</a> <br> <a href="userPage5">
+				<div class="wishlist">위시리스트</div>
+			</a> <br> <br>
+		</div>
+
+		<form id="interestsForm">
+			<div class="userPage_main">
+				<div class="title_big">
+					<div class="wishList">
+						<i class="fa-solid fa-hashtag"></i> 나의 관심분야
+					</div>
+				</div>
+
+				<br>
+				<div class="tot_box">
+					<div class="image-container">
+						<div class="box">
+							<div class="button">
+								<input type="checkbox" id="checkbox2" class="checkbox-input finance-checkbox"
+									name="interest_type" value="2"> <label for="checkbox2" class="checkbox-label"> <img
+										src="img/002-won.png" style="opacity: 0.2" alt="Unchecked" class="checkbox-img">
+									<img src="img/002-won.png" alt="Checked" class="checkbox-img">
+								</label>
+							</div>
+							<input id="input1" type="button" value="금융">
+						</div>
+
+						<div class="box">
+							<div class="button">
+								<input type="checkbox" id="checkbox3" class="checkbox-input art-checkbox"
+									name="interest_type" value="3"> <label for="checkbox3" class="checkbox-label"> <img
+										src="img/003-palette.png" style="opacity: 0.2" alt="Unchecked"
+										class="checkbox-img">
+									<img src="img/003-palette.png" alt="Checked" class="checkbox-img">
+								</label>
+							</div>
+							<input id="input1" type="button" value="미술">
+						</div>
+						<div class="box">
+							<div class="button">
+								<input type="checkbox" id="checkbox4" class="checkbox-input pet-checkbox"
+									name="interest_type" value="4"> <label for="checkbox4" class="checkbox-label"> <img
+										src="img/004-pet-care.png" style="opacity: 0.2" alt="Unchecked"
+										class="checkbox-img">
+									<img src="img/004-pet-care.png" alt="Checked" class="checkbox-img">
+								</label>
+							</div>
+							<input id="input1" type="button" value="반려동물">
+						</div>
+						<div class="box">
+							<div class="button">
+								<input type="checkbox" id="checkbox5" class="checkbox-input makeup-checkbox"
+									name="interest_type" value="5"> <label for="checkbox5" class="checkbox-label"> <img
+										src="img/005-makeup.png" style="opacity: 0.2" alt="Unchecked"
+										class="checkbox-img">
+									<img src="img/005-makeup.png" alt="Checked" class="checkbox-img">
+								</label>
+							</div>
+							<input id="input1" type="button" value="메이크업">
+						</div>
+					</div>
+
+					<div class="image-container">
+						<div class="box">
+							<div class="button">
+								<input type="checkbox" id="checkbox6" class="checkbox-input photographer-checkbox"
+									name="interest_type" value="6"> <label for="checkbox6" class="checkbox-label"> <img
+										src="img/006-photographer.png" style="opacity: 0.2" alt="Unchecked"
+										class="checkbox-img"> <img src="img/006-photographer.png" alt="Checked"
+										class="checkbox-img">
+								</label>
+							</div>
+							<input id="input1" type="button" value="사진">
+						</div>
+
+						<div class="box">
+							<div class="button">
+								<input type="checkbox" id="checkbox7" class="checkbox-input sports-checkbox"
+									name="interest_type" value="7"> <label for="checkbox7" class="checkbox-label"> <img
+										src="img/007-sports.png" style="opacity: 0.2" alt="Unchecked"
+										class="checkbox-img">
+									<img src="img/007-sports.png" alt="Checked" class="checkbox-img">
+								</label>
+							</div>
+							<input id="input1" type="button" value="스포츠">
+						</div>
+						<div class="box">
+							<div class="button">
+								<input type="checkbox" id="checkbox8" class="checkbox-input music-checkbox"
+									name="interest_type" value="8"> <label for="checkbox8" class="checkbox-label"> <img
+										src="img/008-music.png" style="opacity: 0.2" alt="Unchecked"
+										class="checkbox-img">
+									<img src="img/008-music.png" alt="Checked" class="checkbox-img">
+								</label>
+							</div>
+							<input id="input1" type="button" value="악기">
+						</div>
+						<div class="box">
+							<div class="button">
+								<input type="checkbox" id="checkbox9" class="checkbox-input languages-checkbox"
+									name="interest_type" value="9"> <label for="checkbox9" class="checkbox-label"> <img
+										src="img/009-languages.png" style="opacity: 0.2" alt="Unchecked"
+										class="checkbox-img"> <img src="img/009-languages.png" alt="Checked"
+										class="checkbox-img">
+								</label>
+							</div>
+							<input id="input1" type="button" value="언어">
+						</div>
+					</div>
+
+					<div class="image-container">
+						<div class="box">
+							<div class="button">
+								<input type="checkbox" id="checkbox10" class="checkbox-input singing-checkbox"
+									name="interest_type" value="10"> <label for="checkbox10" class="checkbox-label">
+									<img src="img/010-singing.png" style="opacity: 0.2" alt="Unchecked"
+										class="checkbox-img">
+									<img src="img/010-singing.png" alt="Checked" class="checkbox-img">
+								</label>
+							</div>
+							<input id="input1" type="button" value="노래">
+						</div>
+
+						<div class="box">
+							<div class="button">
+								<input type="checkbox" id="checkbox11" class="checkbox-input self-checkbox"
+									name="interest_type" value="11"> <label for="checkbox11" class="checkbox-label">
+									<img src="img/011-self-awareness.png" style="opacity: 0.2" alt="Unchecked"
+										class="checkbox-img"> <img src="img/011-self-awareness.png" alt="Checked"
+										class="checkbox-img">
+								</label>
+							</div>
+							<input id="input1" type="button" value="자기계발">
+						</div>
+						<div class="box">
+							<div class="button">
+								<input type="checkbox" id="checkbox12" class="checkbox-input doctors-checkbox"
+									name="interest_type" value="12"> <label for="checkbox12" class="checkbox-label">
+									<img src="img/012-doctors-office.png" style="opacity: 0.2" alt="Unchecked"
+										class="checkbox-img"> <img src="img/012-doctors-office.png" alt="Checked"
+										class="checkbox-img">
+								</label>
+							</div>
+							<input id="input1" type="button" value="체험">
+						</div>
+						<div class="box">
+							<div class="button">
+								<input type="checkbox" id="checkbox13" class="checkbox-input hacker-checkbox"
+									name="interest_type" value="13"> <label for="checkbox13" class="checkbox-label">
+									<img src="img/013-hacker.png" style="opacity: 0.2" alt="Unchecked"
+										class="checkbox-img">
+									<img src="img/013-hacker.png" alt="Checked" class="checkbox-img">
+								</label>
+							</div>
+							<input id="input1" type="button" value="컴퓨터">
+						</div>
+					</div>
+
+					<div class="image-container">
+						<div class="box">
+							<div class="button">
+								<input type="checkbox" id="checkbox14" class="checkbox-input cooking-checkbox"
+									name="interest_type" value="14"> <label for="checkbox14" class="checkbox-label">
+									<img src="img/014-bake.png" style="opacity: 0.2" alt="Unchecked"
+										class="checkbox-img">
+									<img src="img/014-bake.png" alt="Checked" class="checkbox-img">
+								</label>
+							</div>
+							<input id="input1" type="button" value="쿠킹">
+						</div>
+						<div class="box">
+							<div class="button">
+								<input type="checkbox" id="checkbox01" class="checkbox-input handmade-checkbox"
+									name="interest_type" value="1"> <label for="checkbox01" class="checkbox-label"> <img
+										src="img/001-hand-made.png" style="opacity: 0.2" alt="Unchecked"
+										class="checkbox-img"> <img src="img/001-hand-made.png" alt="Checked"
+										class="checkbox-img">
+								</label>
+							</div>
+							<input id="input1" type="button" value="핸드메이드">
+						</div>
+					</div>
+
+					<br> <br>
+					<div class="button2">
+						<input id="editButton" type="button" value="수정하기" class="input2">
+						<input id="cancelButton" type="button" value="취소" class="input2">
+						<!-- 원래 id="input2" 였음 -->
+					</div>
+					<br> <br>
+				</div>
+			</div>
+		</form>
+		<script>
+			$(document)
+				.ready(
+					function () {
+						// 초기 관심사 데이터를 불러옵니다.
+						loadInterests();
+
+						// 체크박스 선택 상태 변경 시 동작하는 이벤트 핸들러를 추가합니다.
+						$('input[name="interest_type"]')
+							.click(
+								function (e) {
+									// 선택된 관심사의 수를 계산합니다.
+									var selectedCount = $('input[name="interest_type"]:checked').length;
+
+									// 선택된 관심사가 3개 이상이면서 추가 선택을 시도할 경우
+									if (selectedCount > 3) {
+										e.preventDefault(); // 현재 이벤트를 취소합니다.
+										alert('최대 3개까지 선택할 수 있습니다.'); // 경고 메시지를 띄웁니다.
+										return; // 함수 실행을 종료합니다.
+									} else if (selectedCount == 0) { // 선택된 관심사가 없을 경우
+										e.preventDefault(); // 현재 이벤트를 취소합니다.
+										alert('최소 1개는 선택해야합니다.'); // 경고 메시지를 띄웁니다.
+										return; // 함수 실행을 종료합니다.
+									}
+								});
+
+						// "수정하기" 버튼 클릭 이벤트 핸들러
+						$('#editButton')
+							.click(
+								function () {
+									var selectedInterests = $(
+										'input[name="interest_type"]:checked')
+										.map(
+											function () {
+												return $(
+													this)
+													.val();
+											}).get();
+
+									// 선택된 관심사가 1개 이상 3개 이하인지 확인
+									if (selectedInterests.length >= 1
+										&& selectedInterests.length <= 3) {
+										$
+											.ajax({
+												url: '/updateUserInterests', // 서버 엔드포인트 URL
+												type: 'POST',
+												contentType: 'application/json',
+												data: JSON
+													.stringify({
+														interest_type1: selectedInterests[0]
+															|| null,
+														interest_type2: selectedInterests[1]
+															|| null,
+														interest_type3: selectedInterests[2]
+															|| null
+													}),
+												success: function (
+													response) {
+													window.location.href = '/userPage4';
+													alert('관심사가 업데이트 되었습니다.');
+													loadInterests(); // 업데이트 후 관심사 재로딩
+												},
+												error: function (
+													error) {
+													console
+														.error(
+															'업데이트 실패:',
+															error);
+													alert('관심사 업데이트에 실패했습니다.');
+
+												}
+											});
+									} else {
+										alert('관심사는 1개 이상 3개 이하로 선택해야 합니다.');
+									}
+								});
+
+						// "취소" 버튼 클릭 이벤트 핸들러
+						$('#cancelButton').click(function () {
+							loadInterests(); // 관심사 데이터를 다시 불러옵니다.
+						});
+					});
+
+			// 관심사 데이터를 불러오는 함수
+			function loadInterests() {
+				$.ajax({
+					url: '/userInterests',
+					type: 'GET',
+					success: function (data) {
+						if (data) {
+							var interests = [data.interest_type1,
+							data.interest_type2, data.interest_type3];
+							interests.forEach(function (interestValue) {
+								if (interestValue) {
+									$(
+										'input[name="interest_type"][value="'
+										+ interestValue + '"]')
+										.prop('checked', true);
+								}
+							});
+
+							// 관심사를 성공적으로 불러온 후, 체크박스 상태를 업데이트
+							$('input[name="interest_type"]').change();
+
+						}
+					},
+					error: function (error) {
+						console.log('에러:', error);
+					}
+				});
+			}
+		</script>
+
+	</main>
+
+</section>
+
+</html>

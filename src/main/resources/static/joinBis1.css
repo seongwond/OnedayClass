@@ -1,0 +1,136 @@
+@charset "UTF-8";
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.widelogo {
+	margin-top: 70px;
+	margin-bottom: 30px;
+}
+
+h1 {
+	font-weight: bold;
+	margin-bottom: 50px;
+	font-size: 40px;
+}
+
+.join_bis {
+	flex-direction: column;
+}
+
+td {
+	margin-top: 20px;
+}
+
+.big_text {
+	height: 50px;
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.small_text {
+	width: 600px;
+	height: 40px;
+	border-radius: 5px;
+	border: none;
+	background-color: rgb(245, 237, 237, 0.28);
+	box-shadow: 2px 2px 2px #D9d9d9;
+	color: #000000;
+	margin-bottom: 15px;
+	padding-left: 15px;
+}
+
+.small_text:focus::placeholder {
+	color: transparent;
+}
+
+.small_text::placeholder {
+	font-size: 15px;
+	color: #D9d9d9;
+}
+
+.small_text:focus {
+	outline: none;
+}
+
+.smaller_text {
+	width: 130px;
+	height: 40px;
+	border-radius: 5px;
+	border: none;
+	background-color: rgb(245, 237, 237, 0.28);
+	box-shadow: 2px 2px 2px #D9d9d9;
+	color: #000000;
+	margin-bottom: 15px;
+	margin-top: 15px
+}
+
+.smaller_text:focus::placeholder {
+	color: transparent;
+}
+
+.smaller_text::placeholder {
+	font-size: 15px;
+	color: #D9d9d9;
+}
+
+.smaller_text:focus {
+	outline: none;
+}
+
+.find_addr {
+	width: 100px;
+	height: 40px;
+	border-radius: 5px;
+	border: solid rgb(0, 0, 0, 0.25);
+	background-color: #D9D9D9;
+	margin-left: 10px;
+}
+
+.step_button {
+	text-align: center;
+	margin-top: 50px;
+	margin-bottom: 100px;
+}
+
+.joinBis2 {
+	width: 130px;
+	height: 40px;
+	border-radius: 5px;
+	border: solid rgb(0, 0, 0, 0.25);
+	background-color: #D9D9D9;
+	margin-right: 10px;
+	font-size: 15px;
+}
+
+.back_to_menu {
+	width: 130px;
+	height: 40px;
+	border-radius: 5px;
+	border: solid #D9D9D9;
+	background-color: rgb(217, 217, 217, 0.33);
+	color: #D9D9D9;
+	font-size: 15px;
+}
+
+.checking {
+	background-color: rgb(47, 96, 36, 0.5);
+	width: 110px;
+	height: 30px;
+	text-align: center;
+	border-radius: 5px;
+	border-color: rgb(58, 78, 50, 0.2);
+	margin-left: 10px;
+	color: white;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+	box-shadow: 0 0 5px rgba(44, 139, 53, 0.5);
+	/* 포커스시 그림자 효과 추가 */
+}

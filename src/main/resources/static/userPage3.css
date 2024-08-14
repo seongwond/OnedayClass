@@ -1,0 +1,202 @@
+@charset "UTF-8";
+
+ /* main */
+      main {
+         display: flex;
+         justify-content: center;
+         padding-top: 60px;
+      }
+
+      /* userPage 프로필 이미지 처리 스타일 */
+      .profile1_img img,
+      .profile2_img img {
+         border-radius: 50%;
+      }
+
+      .profile1_img {
+         margin-top: -25px;
+      }
+
+      .user_nickname,
+      .user_id1 {
+         font-weight: bold;
+      }
+
+      /* userPage 메뉴(프로필, 수강내역 등) 스타일 */
+      .userPage_menu1 {
+         display: grid;
+         float: left;
+         width: 350px;
+         height: 700px;
+         background-color: none;
+         border: 1px solid lightgray;
+         text-align: center;
+         font-size: 20px;
+         border-radius: 15px;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      a {
+         text-decoration-line: none;
+         color: inherit;
+      }
+
+      /* userPage 프로필 수정 스타일 */
+      .userPage_main {
+         float: left;
+         width: 900px;
+         max-width: 900px;
+         margin-left: 80px;
+         background-color: none;
+         text-align: left;
+         font-size: 19px;
+         margin-top: 28px;
+         justify-content: center;
+         height: 900px;
+      }
+
+      /* userPage 프로필 이미지 처리 스타일 */
+      .user_img1 img {
+         border-radius: 50%;
+      }
+
+      .user_img1 {
+         margin-top: -25px;
+      }
+
+      .title_big {
+         display: flex;
+         font-weight: bold;
+         font-size: 21px;
+         height: 10px;
+      }
+
+
+      .checkbox {
+         margin-right: 20px;
+      }
+
+      .class_style {
+         display: flex;
+         align-items: center;
+         background-color: white;
+         padding: 18px;
+         margin-bottom: 25px;
+         border-radius: 20px;
+         box-shadow: 0 8px 13px rgba(0, 0, 0, 0.15);
+      }
+
+      .title_big {
+         display: flex;
+         font-weight: bold;
+         font-size: 21px;
+      }
+
+      .box {
+         margin: 0;
+      }
+
+      .class-info {
+         display: flex;
+         flex-direction: row;
+         align-items: center;
+         margin-left: 3px;
+      }
+
+      .box p {
+         margin-top: 13px;
+         margin-bottom: 10px;
+         font-size: 20px;
+         overflow: hidden;
+         text-overflow: ellipsis;
+         white-space: nowrap;
+         max-width: 212px;
+      }
+
+      .class_style img {
+         border-radius: 4%;
+         border: none;
+      }
+
+      .class-date,
+      .class-price {
+         margin: 4px 12px;
+         width: 150px;
+         font-size: 20px;
+         text-align: center;
+      }
+
+      .class-title {
+         margin: 4px 20px 4px 12px;
+         width: 210px;
+         font-size: 20px;
+         text-align: left;
+      }
+
+      .tot_box {
+         padding-top: 20px;
+         flex-wrap: wrap;
+         padding-left: 30px;
+         min-height: 600px;
+      }
+
+      #selectAll,
+      #deleteSelected {
+         width: 120px;
+         height: 38px;
+         border: none;
+         background-color: #E2BFB3;
+         color: white;
+         font-size: 18px;
+         font-weight: bold;
+         border-radius: 20px;
+         cursor: pointer;
+         transition: background-color 0.3s ease;
+      }
+
+      #selectAll:hover,
+      #deleteSelected:hover {
+         background-color: brown;
+         ;
+      }
+
+      .button {
+         text-align: right;
+      }
+
+      #pagination {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         margin-top: 20px;
+      }
+
+      #pagination button {
+         background-color: rgb(255, 228, 202);
+         border: none;
+         color: white;
+         padding: 10px 20px;
+         text-align: center;
+         text-decoration: none;
+         display: inline-block;
+         font-size: 16px;
+         margin: 0 10px;
+         font-weight: 600;
+         cursor: pointer;
+         border-radius: 5px;
+         transition: background-color 0.3s;
+      }
+
+      #pagination button:disabled {
+         background-color: rgb(241, 240, 239);
+         cursor: not-allowed;
+      }
+
+      #pagination button:hover:not(:disabled) {
+         background-color: rgb(255, 228, 202);
+      }
+
+      #pagination span {
+         font-size: 18px;
+         margin: 0 10px;
+      }

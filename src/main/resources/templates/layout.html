@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ONETWODAY</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+	<style>
+		/* 메뉴바 스타일 */
+		a {
+			text-decoration: none;
+			color: black;
+		}
+
+		.header {
+			font-family: 'SUITE-Regular';
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			height: 100px;
+			background-color: #FFBE98;
+		}
+
+		.header img {
+			width: 300px;
+			height: auto;
+		}
+
+		.header-left {
+			display: flex;
+			align-items: center;
+		}
+
+		.header-left img {
+			margin-right: 30px;
+			margin-left: 30px;
+		}
+
+		.all {
+			text-decoration: none;
+			color: black;
+		}
+
+		.menu-bar {
+			display: flex;
+			justify-content: flex-start;
+			position: relative;
+		}
+
+		.menu-item {
+			margin-left: 50px;
+			margin-right: 20px;
+		}
+
+		/* 기본 스타일 */
+		.menu-item p {
+			font-size: 20px;
+			color: white;
+			padding: 10px;
+			text-align: center;
+			cursor: pointer;
+			background-color: transparent;
+			transition: background-color 0.3s ease;
+		}
+
+		/* 호버 스타일 */
+		.menu-item p:hover {
+			color: rgb(163, 79, 16);
+			transform: scale(1.05);
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+			background-color: transparent;
+		}
+
+		/* 활성화된 메뉴 항목 스타일 */
+		.menu-item.active p {
+			background-color: transparent;
+			color: rgb(163, 79, 16);
+		}
+
+		.menu-toggle {
+			display: none;
+		}
+
+		@media screen and (max-width: 1400px) {
+			.menu-toggle {
+				display: block;
+				/* 화면이 작을 때만 표시 */
+			}
+
+			.header-right li:nth-child(n+2) {
+				display: none;
+				/* 초기에는 두 번째 이후의 메뉴 항목들을 숨김 */
+			}
+
+		}
+
+		@media screen and (max-width: 1000px) {
+
+			/* 화면이 작은 경우에만 적용할 스타일 */
+			.menu-item p {
+				writing-mode: horizontal-tb;
+				/* 글자를 가로 방향으로 유지 */
+				white-space: nowrap;
+				/* 줄 바꿈 방지 */
+				display: inline-block;
+				/* 인라인 요소로 표시하여 가로 정렬 유지 */
+			}
+		}
+
+		@media screen and (max-width: 800px) {
+			.menu-item p {
+				display: none;
+				/* 초기에는 두 번째 이후의 메뉴 항목들을 숨김 */
+			}
+
+		}
+
+		.sub-menu1,
+		.sub-menu2 {
+			display: none;
+			position: absolute;
+			background-color: rgb(253, 221, 191);
+			box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+			padding: 12px 16px;
+			z-index: 1;
+			opacity: 0;
+			visibility: hidden;
+			transition: opacity 0.5s ease, visibility 0s linear 0.5s, transform 0.5s ease;
+			transform: translateY(-10px);
+		}
+
+		.sub-menu1 {
+			gap: 50px;
+			height: 180px;
+			left: 110px;
+			text-align: center;
+			top: 100px;
+		}
+
+		/* 내려오는 메뉴바 */
+		.sub-menu2 {
+			display: grid;
+			grid-template-columns: repeat(7, 1fr);
+			grid-template-rows: repeat(2, 1fr);
+			grid-gap: 10px;
+			z-index: 10000;
+			left: -100px;
+			top: 100px;
+		}
+
+		/* 각 묶음을 감싸는 div에 대한 스타일 */
+		.area-group {
+			width: 150px;
+			height: 200px;
+		}
+
+		.category-group {
+			width: 200px;
+			height: 200px;
+			text-align: center;
+		}
+
+		.area-tit,
+		.category-tit {
+			font-size: 18px;
+			font-weight: 550;
+			margin-top: 10px;
+			border-radius: 20px;
+			position: relative;
+			padding-bottom: 10px;
+			margin-bottom: 8px;
+			color: initial;
+			transition: color 0.3s ease;
+		}
+
+		.area-tit::before,
+		.category-tit::before {
+			content: '';
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			height: 3px;
+			background-color: rgb(244, 206, 183);
+			border-radius: 10px;
+		}
+
+		.area-tit::after,
+		.category-tit::after {
+			content: '';
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			width: 0;
+			height: 3px;
+			background-color: rgb(242, 182, 100);
+			border-radius: 10px;
+			transition: width 0.3s ease, background-color 0.3s ease;
+		}
+
+		.area-tit:hover,
+		.category-tit:hover {
+			color: rgb(231, 163, 112);
+		}
+
+		.area-tit:hover::after,
+		.category-tit:hover::after {
+			width: 100%;
+			background-color: rgb(231, 163, 112);
+		}
+
+		.sub-menu1 a,
+		.sub-menu2 a {
+			color: black;
+			font-size: 18px;
+			font-weight: 300;
+		}
+
+		.sub-menu1 a:before,
+		.sub-menu2 a:before {
+			color: black;
+			content: attr(data-hover);
+			position: absolute;
+			transition: transform 0.3s, opacity 0.3s;
+		}
+
+		.sub-menu1 a:hover:before,
+		.sub-menu1 a:focus:before,
+		.sub-menu2 a:hover:before,
+		.sub-menu2 a:focus:before {
+			transform: scale(0.9);
+			opacity: -1;
+			font-weight: bold;
+			color: rgba(255, 255, 255);
+		}
+
+		.menu-item.active .sub-menu1,
+		.menu-item.active .sub-menu2 {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0);
+			transition-delay: 0s;
+		}
+
+		.header-right a {
+			margin-left: 20px;
+			text-decoration: none;
+			color: #000;
+			font-weight: bold;
+		}
+
+
+		/*푸터*/
+		.footer {
+			font-family: 'SUITE-Regular';
+			background-color: #FFBE98;
+			text-align: left;
+			bottom: 0;
+			width: 100%;
+			height: 150px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.footer-content {
+			margin-left: 30px;
+		}
+
+		.footer i {
+			vertical-align: middle;
+			margin-right: 10px;
+			color: white;
+		}
+
+		.footer-right {
+			margin-right: 50px;
+		}
+
+		.footer-right a:first-child img {
+			margin-right: 50px;
+		}
+
+		.footer-text {
+			margin-left: 30px;
+			margin-top: 10px;
+		}
+
+		a {
+			text-decoration: none;
+			color: black;
+		}
+
+		.header {
+			font-family: 'SUITE-Regular';
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			height: 100px;
+			background-color: #FFBE98;
+		}
+
+		.header img {
+			width: 300px;
+			height: auto;
+		}
+
+		.header-left {
+			display: flex;
+			align-items: center;
+		}
+
+		.header-left img {
+			margin-right: 30px;
+			margin-left: 30px;
+		}
+
+		.search-box {
+			padding: 8px;
+			border-radius: 30px;
+			border: none;
+			width: 400px;
+		}
+
+		.header-right {
+			margin-right: 40px;
+
+		}
+
+		#menu {
+			display: flex;
+		}
+
+		#menu li {
+			list-style: none;
+			margin-right: 30px;
+		}
+
+		.header-right a {
+			margin-left: 20px;
+			text-decoration: none;
+			color: #000;
+			font-weight: bold;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="header">
+		<div class="header-left">
+			<a href="/"><img src="/img/widWhite.png" alt="로고" width="50" height="50"></a>
+
+			<!-- 메뉴바 추가 -->
+			<div class="menu-bar">
+				<div class="menu-item" onclick="toggleMenu(this, 'all')">
+					<a href="/category" class="all">
+						<p>전체</p>
+					</a>
+				</div>
+
+				<div class="menu-item" onclick="toggleMenu(this, 'area')">
+					<p>지역</p>
+					<div class="sub-menu1">
+						<div class="area-group">
+							<div class="area-tit">Daejeon</div>
+							<div class="area-name"><a th:href="@{/category/area/대덕구}">대덕구</a></div>
+							<div class="area-name"><a th:href="@{/category/area/동구}">동구</a></div>
+							<div class="area-name"><a th:href="@{/category/area/서구}">서구</a></div>
+							<div class="area-name"><a th:href="@{/category/area/중구}">중구</a></div>
+							<div class="area-name"><a th:href="@{/category/area/유성구}">유성구</a></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="menu-item" onclick="toggleMenu(this, 'category')">
+					<p>카테고리</p>
+					<div class="sub-menu2">
+						<div class="category-group">
+							<div class="category-tit">금융</div>
+							<div class="category-name"><a th:href="@{/category/type/6}" data-type="6">금융 전체</a></div>
+						</div>
+						<div class="category-group">
+							<div class="category-tit">미술</div>
+							<div class="category-name"><a th:href="@{/category/type/7}" data-type="7">디지털드로잉</a></div>
+							<div class="category-name"><a th:href="@{/category/type/8}" data-type="8">취미미술</a></div>
+							<div class="category-name"><a th:href="@{/category/type/9}" data-type="9">캘리그라피</a></div>
+						</div>
+						<div class="category-group">
+							<div class="category-tit">반려동물</div>
+							<div class="category-name"><a th:href="@{/category/type/10}" data-type="10">반려동물 전체</a>
+							</div>
+						</div>
+						<div class="category-group">
+							<div class="category-tit">뷰티</div>
+							<div class="category-name"><a th:href="@{/category/type/11}" data-type="11">메이크업</a></div>
+							<div class="category-name"><a th:href="@{/category/type/12}" data-type="12">케어</a></div>
+							<div class="category-name"><a th:href="@{/category/type/13}" data-type="13">패션</a></div>
+							<div class="category-name"><a th:href="@{/category/type/14}" data-type="14">헤어/네일</a></div>
+						</div>
+						<div class="category-group">
+							<div class="category-tit">사진</div>
+							<div class="category-name"><a th:href="@{/category/type/15}" data-type="15">사진 전체</a></div>
+						</div>
+						<div class="category-group">
+							<div class="category-tit">스포츠</div>
+							<div class="category-name"><a th:href="@{/category/type/16}" data-type="16">골프</a></div>
+							<div class="category-name"><a th:href="@{/category/type/17}" data-type="17">농구/축구/야구</a>
+							</div>
+							<div class="category-name"><a th:href="@{/category/type/18}" data-type="18">댄스</a></div>
+							<div class="category-name"><a th:href="@{/category/type/19}" data-type="19">연기/무용/뮤지컬</a>
+							</div>
+							<div class="category-name"><a th:href="@{/category/type/20}" data-type="20">요가/필라테스</a>
+							</div>
+							<div class="category-name"><a th:href="@{/category/type/21}" data-type="21">이색스포츠</a></div>
+							<div class="category-name"><a th:href="@{/category/type/22}" data-type="22">헬스/PT</a></div>
+						</div>
+						<div class="category-group">
+							<div class="category-tit">악기</div>
+							<div class="category-name"><a th:href="@{/category/type/23}" data-type="23">국악</a></div>
+							<div class="category-name"><a th:href="@{/category/type/24}" data-type="24">기타</a></div>
+							<div class="category-name"><a th:href="@{/category/type/25}" data-type="25">드럼</a></div>
+							<div class="category-name"><a th:href="@{/category/type/26}" data-type="26">바이올린</a></div>
+							<div class="category-name"><a th:href="@{/category/type/27}" data-type="27">피아노</a></div>
+							<div class="category-name"><a th:href="@{/category/type/28}" data-type="28">etc</a></div>
+						</div>
+						<div class="category-group">
+							<div class="category-tit">언어</div>
+							<div class="category-name"><a th:href="@{/category/type/29}" data-type="29">스피치</a></div>
+							<div class="category-name"><a th:href="@{/category/type/30}" data-type="30">영어</a></div>
+							<div class="category-name"><a th:href="@{/category/type/31}" data-type="31">제2외국어</a></div>
+						</div>
+						<div class="category-group">
+							<div class="category-tit">음악</div>
+							<div class="category-name"><a th:href="@{/category/type/32}" data-type="32">보컬</a></div>
+							<div class="category-name"><a th:href="@{/category/type/33}" data-type="33">작곡/작사/프로듀싱</a>
+							</div>
+						</div>
+						<div class="category-group">
+							<div class="category-tit">자기계발</div>
+							<div class="category-name"><a th:href="@{/category/type/34}" data-type="34">영업</a></div>
+							<div class="category-name"><a th:href="@{/category/type/34}" data-type="35">발표</a></div>
+							<div class="category-name"><a th:href="@{/category/type/36}" data-type="36">자격증</a></div>
+							<div class="category-name"><a th:href="@{/category/type/37}" data-type="37">자소서</a></div>
+							<div class="category-name"><a th:href="@{/category/type/38}" data-type="38">창업</a></div>
+							<div class="category-name"><a th:href="@{/category/type/39}" data-type="39">투잡</a></div>
+						</div>
+						<div class="category-group">
+							<div class="category-tit">체험</div>
+							<div class="category-name"><a th:href="@{/category/type/40}" data-type="40">사주/타로</a></div>
+							<div class="category-name"><a th:href="@{/category/type/41}" data-type="41">심리/상담</a></div>
+							<div class="category-name"><a th:href="@{/category/type/42}" data-type="42">이색체험</a></div>
+						</div>
+						<div class="category-group">
+							<div class="category-tit">컴퓨터</div>
+							<div class="category-name"><a th:href="@{/category/type/43}" data-type="43">PPT</a></div>
+							<div class="category-name"><a th:href="@{/category/type/44}" data-type="44">Python</a></div>
+							<div class="category-name"><a th:href="@{/category/type/45}" data-type="45">SQL</a></div>
+							<div class="category-name"><a th:href="@{/category/type/46}" data-type="46">개발</a></div>
+							<div class="category-name"><a th:href="@{/category/type/47}" data-type="47">영상</a></div>
+							<div class="category-name"><a th:href="@{/category/type/48}" data-type="48">포토샵</a></div>
+						</div>
+						<div class="category-group">
+							<div class="category-tit">쿠킹</div>
+							<div class="category-name"><a th:href="@{/category/type/49}" data-type="49">베이킹</a></div>
+							<div class="category-name"><a th:href="@{/category/type/50}" data-type="50">커피/차/술</a></div>
+						</div>
+						<div class="category-group">
+							<div class="category-tit">핸드메이드</div>
+							<div class="category-name"><a th:href="@{/category/type/1}" data-type="1">가죽/목공/도예</a></div>
+							<div class="category-name"><a th:href="@{/category/type/2}" data-type="2">악세사리</a></div>
+							<div class="category-name"><a th:href="@{/category/type/3}" data-type="3">인테리어/소품</a></div>
+							<div class="category-name"><a th:href="@{/category/type/4}" data-type="4">플라워</a></div>
+							<div class="category-name"><a th:href="@{/category/type/5}" data-type="5">향/초/비누</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="header-right">
+
+			<ul id="menu">
+
+				<li><a sec:authorize="isAnonymous()" th:href="@{/loginMain.do}">로그인</a></li>
+
+				<!-- 사용자 타입이 0일 때 닉네임 뿌리기 -->
+				<li sec:authorize="isAuthenticated()" th:if="${userType == 0}">
+					<strong><span th:text="${userNickName} + '님 환영합니다!'"></span> </strong>
+					<a th:href="@{/logout.do}"> <span th:text="(로그아웃)"></span>
+					</a>
+				</li>
+
+				<!-- 사용자 타입이 1일 때 이름 뿌리기 -->
+				<li sec:authorize="isAuthenticated()" th:if="${userType == 1}">
+					<strong><span th:text="${userName} + '님 환영합니다!'"></span> </strong>
+					<a th:href="@{/logout.do}"> <span th:text="(로그아웃)"></span>
+					</a>
+				</li>
+
+				<a sec:authorize="isAnonymous()" th:href="@{/joinMain}">회원가입</a>
+				<a sec:authorize="isAuthenticated()" th:if="${userType == 0}" th:href="@{/userPage}">마이페이지</a>
+				<a sec:authorize="isAuthenticated()" th:if="${userType == 1}" th:href="@{/bisPage}">마이페이지</a>
+			</ul>
+		</div>
+
+	</div>
+
+	<div class="content">
+		<th:block layout:fragment="content"></th:block>
+	</div>
+
+	<div class="footer">
+		<div class="footer-content">
+			<a href="/"><img src="/img/smallWhite.png" alt="로고" width="50" height="50"></a>
+			ONETWODAY
+			<div class="footer-text">고객센터 | 개인정보처리방침</div>
+			<div class="footer-text">Copyright @ 2024 ONETWODAY COMPANY
+				Inc. All Rights Reserved E-mail : onetwodayofficial@gmail.com</div>
+		</div>
+		<div class="footer-right">
+			<a href="https://www.instagram.com/onetwodayofficial/"><i class="fa-brands fa-instagram fa-3x"></i></a>
+
+		</div>
+	</div>
+
+	<script>
+		function toggleMenu(element, type) {
+			// 모든 메뉴 아이템을 비활성화
+			var allMenuItems = document.querySelectorAll('.menu-item');
+			var isActive = element.classList.contains('active');
+
+			allMenuItems.forEach(function (item) {
+				item.classList.remove('active');
+
+				// 모든 서브메뉴를 숨김
+				var subMenu1 = item.querySelector('.sub-menu1');
+				var subMenu2 = item.querySelector('.sub-menu2');
+				if (subMenu1) subMenu1.style.display = 'none';
+				if (subMenu2) subMenu2.style.display = 'none';
+
+				// 모든 p 요소의 backgroundColor를 transparent로 설정
+				var pElement = item.querySelector('p');
+				if (pElement) pElement.style.backgroundColor = 'transparent';
+			});
+
+			// 클릭된 메뉴 아이템이 이미 활성화되어 있으면 활성화 해제
+			if (isActive) {
+				element.classList.remove('active');
+				return; // 이미 활성화된 메뉴를 클릭했으므로 여기서 종료
+			}
+
+			// 클릭된 메뉴 아이템을 활성화
+			element.classList.add('active');
+
+			// 서브메뉴 제어
+			var subMenu1 = element.querySelector('.sub-menu1');
+			var subMenu2 = element.querySelector('.sub-menu2');
+
+			if (type === 'area' && subMenu1) {
+				subMenu1.style.display = 'block';
+			} else if (type === 'category' && subMenu2) {
+				subMenu2.style.display = 'grid';
+			}
+		}
+
+		// 페이지 로드 시 모든 서브메뉴 숨기기
+		document.addEventListener('DOMContentLoaded', function () {
+			var allSubMenus = document.querySelectorAll('.sub-menu1, .sub-menu2');
+			allSubMenus.forEach(function (subMenu) {
+				subMenu.style.display = 'none';
+			});
+		});
+
+		function toggleMenuToggle() {
+			var loginMenuItem = document.querySelector('.header-right li:nth-child(2)');
+			var joinMenuItem = document.querySelector('.header-right li:nth-child(3)');
+
+			// CSS 클래스를 토글하여 햄버거 버튼을 클릭할 때 로그인 및 회원가입 메뉴 항목을 표시 또는 숨깁니다.
+			loginMenuItem.classList.toggle('show-menu');
+			joinMenuItem.classList.toggle('show-menu');
+		}
+	</script>
+</body>
+
+</html>
